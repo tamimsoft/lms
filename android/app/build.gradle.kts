@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.batchseven.lms.lms"
+    namespace = "com.batchseven.lms"
     compileSdk = flutter.compileSdkVersion
    // ndkVersion = flutter.ndkVersion
 
@@ -23,7 +23,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.batchseven.lms.lms"
+        applicationId = "com.batchseven.lms"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

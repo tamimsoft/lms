@@ -40,6 +40,7 @@ class AppString {
   static const String passwordRequiredText = 'Password cannot be empty';
   static const String passwordInvalidText =
       'Password must be at least 8 characters';
+  static const String confirmPasswordText = 'Confirm Password';
   static const String confirmPasswordRequiredText =
       'Confirm password cannot be empty';
   static const String confirmPasswordInvalidText = 'Password does not match';

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../service/auth_service.dart';
 
@@ -10,16 +11,28 @@ class AuthController extends GetxController {
   final isAuthenticated = false.obs;
 
   @override
-  void onInit() {
-    checkAuthStatus();
-    super.onInit();
+  void onReady() {
+    super.onReady();
+    Future.microtask(() => checkAuthStatus());
   }
 
   void checkAuthStatus() {
-    isLoading(true);
-    final bool isExist = authService.isCurrentUserExist;
-    isAuthenticated(isExist);
-    isLoading(false);
+    isAuthenticated(authService.isUserSignedIn);
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    signOut();
+    authService.initializeAuthListener(
+      onChange: (session, event) {
+        if (event == AuthChangeEvent.signedIn && session != null) {
+          isAuthenticated(true);
+        } else if (event == AuthChangeEvent.signedOut) {
+          isAuthenticated(false);
+        }
+      },
+    );
   }
 
   Future<void> signOut() async {
