@@ -15,6 +15,7 @@ class AppString {
   static const String categoriesText = 'Categories';
   static const String browseText = 'Browse';
   static const String cartText = 'Cart';
+  static const String profileText = 'Profile';
 
   // Login Screen text
   static const String loginScreenTitleText = 'Welcome to our library';

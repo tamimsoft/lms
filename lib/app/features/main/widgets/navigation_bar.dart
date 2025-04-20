@@ -30,6 +30,10 @@ class AppNavigationBar extends GetView<NavigationBarController> {
             icon: Icon(Icons.shopping_cart),
             label: AppString.cartText,
           ),
+          NavigationDestination(
+            icon: Icon(Icons.person),
+            label: AppString.profileText,
+          ),
         ],
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         selectedIndex: controller.selectedIndex.value,
