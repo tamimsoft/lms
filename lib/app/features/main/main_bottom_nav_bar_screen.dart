@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:lms/app/features/category/category_screen.dart';
 import 'package:lms/app/features/main/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:lms/app/features/profile/profile_screen.dart';
 
 import '../home/home_screen.dart';
 import 'controllers/navigation_bar_controller.dart';
@@ -15,6 +16,7 @@ class MainBottomNavBarScreen extends StatelessWidget {
     CategoryScreen(),
     Center(child: Text('brow')),
     Center(child: Text('Cart')),
+    ProfileScreen(),
   ];
 
   final PageController _pageController = PageController();
