@@ -14,6 +14,7 @@ class GithubLoginController extends GetxController {
 
   Future<void> loginWithGithub() async {
     isLoading(true);
+    errorMsg('');
     try {
       await _authService.signInWithGithub();
       isAuthenticated(true);

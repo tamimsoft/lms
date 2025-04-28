@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms/app/core/constants/app_colors.dart';
+import 'package:lms/app/core/constants/image_path.dart';
 import 'package:lms/app/features/profile/controllers/profile_controller.dart';
 
 import 'widgets/edit_profile_screen.dart';
@@ -8,10 +9,11 @@ import 'widgets/edit_profile_screen.dart';
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
-  final ProfileController controller = ProfileController.instance;
+  final ProfileController controller = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
+    controller.fetchUserProfile();
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Profile'),
@@ -31,9 +33,9 @@ class ProfileScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              const CircleAvatar(
+               CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/images/profile.png'),
+                backgroundImage: AssetImage(ImagePath.profileImage),
               ),
               const SizedBox(height: 16),
               Obx(() {
@@ -49,7 +51,7 @@ class ProfileScreen extends StatelessWidget {
 
               const SizedBox(height: 6),
               Text(
-                user.email ?? 'john.williams@gmail.com',
+                user.email,
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
@@ -129,7 +131,7 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset('assets/images/book_cover_1.jpg', fit: BoxFit.cover),
+              Image.asset(ImagePath.coverPhoto1, fit: BoxFit.cover),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
@@ -148,7 +150,7 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset('assets/images/book_cover_3.jpg', fit: BoxFit.cover),
+              Image.asset(ImagePath.coverPhoto3, fit: BoxFit.cover),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(

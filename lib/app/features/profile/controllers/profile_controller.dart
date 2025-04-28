@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:lms/app/config/routes/routes_name.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../model/user_model.dart';
 
@@ -15,16 +16,14 @@ class ProfileController extends GetxController {
     fetchUserProfile();
     super.onInit();
   }
+
   void updateUserProfile(String fullName, String phone) async {
     try {
       isLoading(true);
 
-      await _client.auth.updateUser(UserAttributes(
-        data: {
-          'full_name': fullName,
-          'phone': phone,
-        },
-      ));
+      await _client.auth.updateUser(
+        UserAttributes(data: {'full_name': fullName, 'phone': phone}),
+      );
 
       // Re-fetch updated data
       fetchUserProfile();
@@ -37,7 +36,6 @@ class ProfileController extends GetxController {
       isLoading(false);
     }
   }
-
 
   void fetchUserProfile() async {
     isLoading(true);
@@ -56,9 +54,8 @@ class ProfileController extends GetxController {
     isLoading(false);
   }
 
-
   Future<void> logout() async {
     await _client.auth.signOut();
-    Get.offAllNamed('/login'); // Or your login route
+    Get.offAllNamed(RoutesName.login); // Or your login route
   }
 }
