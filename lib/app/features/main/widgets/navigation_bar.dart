@@ -12,7 +12,7 @@ class AppNavigationBar extends GetView<NavigationBarController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => NavigationBar(
+          () => NavigationBar(
         destinations: <Widget>[
           NavigationDestination(
             icon: Icon(Icons.home),
@@ -29,6 +29,10 @@ class AppNavigationBar extends GetView<NavigationBarController> {
           NavigationDestination(
             icon: Icon(Icons.shopping_cart),
             label: AppString.cartText,
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person),
+            label: AppString.profileText,
           ),
         ],
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,

@@ -15,6 +15,7 @@ class AppString {
   static const String categoriesText = 'Categories';
   static const String browseText = 'Browse';
   static const String cartText = 'Cart';
+  static const String profileText = 'Profile';
 
   // Login Screen text
   static const String loginScreenTitleText = 'Welcome to our library';
@@ -40,8 +41,8 @@ class AppString {
   static const String passwordRequiredText = 'Password cannot be empty';
   static const String passwordInvalidText =
       'Password must be at least 8 characters';
-  static const String confirmPasswordText = 'Confirm Password';
   static const String confirmPasswordRequiredText =
       'Confirm password cannot be empty';
   static const String confirmPasswordInvalidText = 'Password does not match';
+  static const String confirmPasswordText = 'Confirm Password';
 }
