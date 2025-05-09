@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+enum Screen { home, category, cart, wishlist }
+
 class NavigationBarController extends GetxController {
   static NavigationBarController get instance =>
       Get.find<NavigationBarController>();
@@ -10,5 +12,9 @@ class NavigationBarController extends GetxController {
 
   void onDestinationSelected(int index) {
     selectedIndex(index);
+  }
+
+  void navigateToAnotherScreen({required Screen screen}) {
+    selectedIndex(screen.index);
   }
 }

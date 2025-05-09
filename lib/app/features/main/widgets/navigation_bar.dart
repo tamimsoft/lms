@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms/app/core/constants/app_strings.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 import '../controllers/navigation_bar_controller.dart';
 
@@ -12,31 +13,28 @@ class AppNavigationBar extends GetView<NavigationBarController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-          () => NavigationBar(
+      () => NavigationBar(
         destinations: <Widget>[
           NavigationDestination(
-            icon: Icon(Icons.home),
+            icon: Icon(LucideIcons.home),
             label: AppString.homeText,
           ),
           NavigationDestination(
-            icon: Icon(Icons.category_outlined),
-            label: AppString.categoriesText,
+            icon: Icon(LucideIcons.bookOpen),
+            label: AppString.bookText,
           ),
           NavigationDestination(
-            icon: Icon(Icons.business),
-            label: AppString.browseText,
+            icon: Icon(LucideIcons.heart),
+            label: AppString.favoriteText,
           ),
           NavigationDestination(
-            icon: Icon(Icons.shopping_cart),
-            label: AppString.cartText,
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person),
+            icon: Icon(LucideIcons.user),
             label: AppString.profileText,
           ),
         ],
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         selectedIndex: controller.selectedIndex.value,
+        elevation: 2,
         onDestinationSelected: (index) {
           controller.onDestinationSelected(index);
           pageController.animateToPage(

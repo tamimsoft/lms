@@ -2,7 +2,7 @@ class AppString {
   AppString._();
 
   // App Name
-  static const String appName = 'Library';
+  static const String appName = 'BookWorm';
   static const String version = 'Version 1.0';
 
   // Buttons Text
@@ -12,9 +12,8 @@ class AppString {
 
   // Navigation Bar Text
   static const String homeText = 'Home';
-  static const String categoriesText = 'Categories';
-  static const String browseText = 'Browse';
-  static const String cartText = 'Cart';
+  static const String bookText = 'Books';
+  static const String favoriteText = 'Favorites';
   static const String profileText = 'Profile';
 
   // Login Screen text
@@ -45,4 +44,5 @@ class AppString {
       'Confirm password cannot be empty';
   static const String confirmPasswordInvalidText = 'Password does not match';
   static const String confirmPasswordText = 'Confirm Password';
+
 }

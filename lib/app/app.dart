@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms/app/core/constants/app_strings.dart';
-import 'config/di/app_bindings.dart';
+import 'features/auth/binding/initial_bindings.dart';
 import 'config/routes/app_routes.dart';
 import 'config/routes/routes_name.dart';
 import 'core/theme/app_theme.dart';
@@ -17,7 +17,7 @@ class App extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      initialBinding: AppBindings(),
+      initialBinding: InitialBindings(),
       initialRoute: RoutesName.initial,
       getPages: AppRoutes.routes,
     );

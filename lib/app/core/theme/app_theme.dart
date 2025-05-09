@@ -3,37 +3,27 @@ import '/app/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static ThemeData get light {
-    return ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary,
-      brightness: Brightness.light,
-      ),
-      useMaterial3: true,
-      inputDecorationTheme: CustomInputDecorationTheme.light,
-      elevatedButtonTheme: CustomElevatedButtonTheme.light,
-      outlinedButtonTheme: CustomOutlinedButtonTheme.light,
-      textButtonTheme: CustomTextButtonTheme.light,
-      // scaffoldBackgroundColor: Colors.white,
-      // appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
-      progressIndicatorTheme:
-          const ProgressIndicatorThemeData(color: AppColors.primary),
+  static ThemeData get light => _theme(Brightness.light);
+
+  static ThemeData get dark => _theme(Brightness.dark);
+
+  static ThemeData _theme(Brightness brightness) {
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: AppColors.primary,
+      primary: AppColors.primary,
+      brightness: brightness,
     );
-  }
-  static ThemeData get dark {
+
     return ThemeData(
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        // brightness: Brightness.dark,
-      ),
       useMaterial3: true,
-      inputDecorationTheme: CustomInputDecorationTheme.dark,
-      elevatedButtonTheme: CustomElevatedButtonTheme.dark,
-      outlinedButtonTheme: CustomOutlinedButtonTheme.dark,
-      textButtonTheme: CustomTextButtonTheme.dark,
-      scaffoldBackgroundColor: AppColors.secondary,
-      appBarTheme: const AppBarTheme(backgroundColor: Colors.black12),
-      progressIndicatorTheme:
-          const ProgressIndicatorThemeData(color: AppColors.primary),
+      colorScheme: colorScheme,
+      elevatedButtonTheme: CustomButtonTheme.eBTheme,
+      filledButtonTheme: CustomButtonTheme.fBTheme,
+      outlinedButtonTheme: CustomButtonTheme.oBTheme,
+      inputDecorationTheme:
+          brightness == Brightness.light
+              ? CustomInputDecorationTheme.light
+              : CustomInputDecorationTheme.dark,
     );
   }
 }

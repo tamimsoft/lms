@@ -5,51 +5,37 @@ import '../../constants/app_colors.dart';
 class CustomInputDecorationTheme {
   CustomInputDecorationTheme._();
 
-  static InputDecorationTheme get light {
+  static InputDecorationTheme light = _baseTheme(
+    borderColor: Colors.grey.shade400,
+    floatingLabelColor: AppColors.primary,
+  );
+
+  static InputDecorationTheme dark = _baseTheme(
+    borderColor: Colors.grey.shade600,
+    floatingLabelColor: AppColors.primary,
+  );
+
+  static InputDecorationTheme _baseTheme({
+    required Color borderColor,
+    required Color floatingLabelColor,
+  }) {
     return InputDecorationTheme(
-      labelStyle: const TextStyle(
-        fontWeight: FontWeight.w300,
-        color: Colors.grey,
-      ),
-      floatingLabelStyle: const TextStyle(
+      labelStyle: const TextStyle(fontWeight: FontWeight.w300),
+      floatingLabelStyle: TextStyle(
         fontWeight: FontWeight.w400,
-        color: AppColors.primary,
+        color: floatingLabelColor,
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(5)),
-        borderSide: BorderSide(width: 1, color: Colors.grey.shade400),
+        borderSide: BorderSide(color: borderColor),
       ),
-      focusedBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        borderSide: BorderSide(width: 1.5, color: AppColors.primary),
-      ),
-      border: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        borderSide: BorderSide(width: 1),
-      ),
-    );
-  }
-  static InputDecorationTheme get dark {
-    return InputDecorationTheme(
-      labelStyle: const TextStyle(
-        fontWeight: FontWeight.w300,
-        color: Colors.grey,
-      ),
-      floatingLabelStyle: const TextStyle(
-        fontWeight: FontWeight.w400,
-        color: AppColors.primary,
-      ),
-      enabledBorder: OutlineInputBorder(
+      focusedBorder: OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(5)),
-        borderSide: BorderSide(width: 1, color: Colors.grey.shade600),
+        borderSide: BorderSide(color: floatingLabelColor, width: 1.5),
       ),
-      focusedBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        borderSide: BorderSide(width: 1.5, color: AppColors.primary),
-      ),
-      border: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        borderSide: BorderSide(width: 1),
+      border: OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
+        borderSide: BorderSide(color: borderColor),
       ),
     );
   }
