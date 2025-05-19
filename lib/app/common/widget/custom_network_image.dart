@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:lms/app/core/constants/image_path.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 import 'shimmer_placeholder.dart';
 
@@ -30,7 +30,8 @@ class CustomNetworkImage extends StatelessWidget {
       fit: BoxFit.cover,
       placeholder: (context, url) => const ShimmerPlaceholder(),
       errorWidget: (context, url, error) => Center(
-        child: Image.asset(ImagePath.emptyCartPng),
+        child: Icon(LucideIcons.imageOff),
+        //child: Image.asset(ImagePath.noFoundPng),
       ),
     );
   }
