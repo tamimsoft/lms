@@ -19,8 +19,10 @@ class HomePage extends StatelessWidget {
             const SizedBox.shrink(),
             GenericSearchBar(),
             BookCarousel(),
-            CategoryRow(),
-            TageWiseTageWise(),
+            CategoryRow( onTap: (categoryId) {
+              //bookController.fetchBooks(categoryId: categoryId);
+            },),
+            TageWiseBookList(),
             const SizedBox(height: 32),
           ],
         ),
