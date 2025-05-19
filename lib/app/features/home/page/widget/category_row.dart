@@ -4,12 +4,17 @@ import 'package:lms/app/common/widget/shimmer_placeholder.dart';
 import 'package:lms/app/features/home/controller/category_controller.dart';
 
 class CategoryRow extends StatelessWidget {
-  const CategoryRow({super.key});
+  const CategoryRow({super.key, required this.onTap});
+
+  final Function(String?) onTap;
 
   @override
   Widget build(BuildContext context) {
     final CategoryController controller = Get.put(CategoryController());
-    controller.fetchCategories();
+
+    // Track selected category. Null means "All"
+    final RxnString selectedCategoryId = RxnString(null);
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -17,7 +22,44 @@ class CategoryRow extends StatelessWidget {
         if (controller.isLoading.value || controller.categoryList.isEmpty) {
           return _buildPlaceholder();
         }
-        return _buildContent(controller);
+
+        // Sort categories by name (ascending)
+        final sortedCategories = [...controller.categoryList];
+        sortedCategories.sort(
+          (a, b) => (a.name ?? '').toLowerCase().compareTo(
+            (b.name ?? '').toLowerCase(),
+          ),
+        );
+
+        return Row(
+          spacing: 8,
+          children: [
+            // "All" Chip
+            Obx(
+              () => ChoiceChip(
+                label: const Text('All'),
+                selected: selectedCategoryId.value == null,
+                onSelected: (selected) {
+                  selectedCategoryId.value = null;
+                  onTap(null);
+                },
+              ),
+            ),
+            // Category Chips (sorted)
+            ...sortedCategories.map(
+              (category) => Obx(
+                () => ChoiceChip(
+                  label: Text(category.name ?? ''),
+                  selected: selectedCategoryId.value == category.id,
+                  onSelected: (selected) {
+                    selectedCategoryId.value = category.id;
+                    onTap(category.id!);
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
       }),
     );
   }
@@ -29,16 +71,6 @@ class CategoryRow extends StatelessWidget {
         4,
         (index) => ShimmerPlaceholder(width: 100, height: 40),
       ),
-    );
-  }
-
-  Widget _buildContent(CategoryController controller) {
-    return Row(
-      spacing: 8,
-      children:
-          controller.categoryList
-              .map((category) => Chip(label: Text(category.name!)))
-              .toList(),
     );
   }
 }
