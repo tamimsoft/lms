@@ -19,6 +19,17 @@ enum PageTitle {
   const PageTitle(this.name);
 }
 
+enum PageSubTitle {
+  home(''),
+  books('Find your next favorite book'),
+  favorites('5 books in your collection'),
+  profile('');
+
+  final String name;
+
+  const PageSubTitle(this.name);
+}
+
 class MainBottomNavBar extends StatelessWidget {
   MainBottomNavBar({super.key});
 
@@ -38,15 +49,28 @@ class MainBottomNavBar extends StatelessWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        title: Obx(() {
+        leading: Obx(() {
           final index = controller.selectedIndex.value;
-          return Text(PageTitle.values.elementAt(index).name,
-            style:
-          TextStyle(
-            color: context.theme.colorScheme.primary,
-            fontWeight: FontWeight.bold
-          ));
+          final String title = PageTitle.values.elementAt(index).name;
+          final String subtitle = PageSubTitle.values.elementAt(index).name;
+          return ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 16),
+            title: Text(title),
+            titleTextStyle: TextStyle(
+              color: context.theme.colorScheme.primary,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+            subtitle:
+                subtitle.isEmpty
+                    ? null
+                    : Text(
+                      subtitle,
+                      style: TextStyle(fontWeight: FontWeight.w400),
+                    ),
+          );
         }),
+        leadingWidth: double.maxFinite,
         actions: [
           IconButton(
             icon: const Icon(LucideIcons.bell),
