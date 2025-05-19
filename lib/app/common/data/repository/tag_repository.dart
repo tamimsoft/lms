@@ -1,9 +1,13 @@
 import 'package:lms/app/core/services/database/online/supabase_db.dart';
 import 'package:lms/app/common/data/entity/tage.dart';
 
-class TageRepository with SupabaseDb {
+class TagRepository {
+  final SupabaseDb _db;
+
+  TagRepository(this._db);
+
   Future<List<Tage>> getAll() async {
-    final data = await findAll<Tage>(
+    final data = await _db.findAll<Tage>(
       table: DbTable.tags,
       entity: Tage(), // Provide a dummy instance
     );
@@ -11,9 +15,11 @@ class TageRepository with SupabaseDb {
   }
 
   Future<List<Tage>> getAllByIds({required List<String> ids}) async {
-    return await findByFilter<Tage>(
+    return await _db.findAll<Tage>(
       table: DbTable.tags,
-      filter: Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+      filters: [
+        Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+      ],
       entity: Tage(), // Provide a dummy instance
     );
   }
