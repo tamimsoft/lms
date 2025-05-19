@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lms/app/common/data/entity/author.dart';
 import 'package:lms/app/common/data/entity/rating.dart';
 import 'package:lms/app/common/data/model/book_model.dart';
+import 'package:lms/app/common/widget/custom_network_image.dart';
 
 class BookCard extends StatelessWidget {
   final VoidCallback? onTap;
@@ -20,23 +21,22 @@ class BookCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap, // Navigate to book details
       child: Card(
+        margin: const EdgeInsets.all(0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               children: [
-                Container(
-                  height: 140, // Equivalent to h-56
-                  width: 112,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                    image: DecorationImage(
-                      image: NetworkImage(bookModel.coverUrl),
-                      fit: BoxFit.cover,
-                    ),
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                  child: CustomNetworkImage(
+                    imageUrl: bookModel.coverUrl,
+                    height: 140, // Equivalent to h-56
+                    width: 112,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 Positioned(
