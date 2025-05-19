@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lms/app/core/constants/supabase_constants.dart';
-import 'package:lms/app/core/services/database/online/supabase_db.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AuthService with SupabaseDb {
+class AuthService {
+  AuthService() : supabase = Supabase.instance.client;
+
+  final SupabaseClient supabase;
   bool get isUserSignedIn => supabase.auth.currentUser != null;
 
   void initializeAuthListener({
