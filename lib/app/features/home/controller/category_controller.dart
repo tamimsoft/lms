@@ -6,7 +6,7 @@ import 'package:lms/app/common/data/repository/category_repository.dart';
 class CategoryController extends GetxController {
   static CategoryController get instance => Get.find<CategoryController>();
 
-  final CategoryRepository _categoryRepository = CategoryRepository();
+  final CategoryRepository _categoryRepository = Get.find<CategoryRepository>();
 
   final RxBool isLoading = false.obs;
   final RxList<Category> categoryList = <Category>[].obs;
