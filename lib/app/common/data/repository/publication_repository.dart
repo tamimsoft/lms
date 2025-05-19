@@ -1,9 +1,13 @@
 import 'package:lms/app/common/data/entity/publication.dart';
 import 'package:lms/app/core/services/database/online/supabase_db.dart';
 
-class PublicationRepository with SupabaseDb {
+class PublicationRepository {
+  final SupabaseDb _db;
+
+  PublicationRepository(this._db);
+
   Future<List<Publication>> getAll() async {
-    final data = await findAll<Publication>(
+    final data = await _db.findAll<Publication>(
       table: DbTable.publications,
       entity: Publication(), // Provide a dummy instance
     );
@@ -11,7 +15,7 @@ class PublicationRepository with SupabaseDb {
   }
 
   Future<Publication?> getById({required String id}) async {
-    return await findById<Publication>(
+    return await _db.findById<Publication>(
       table: DbTable.publications,
       id: id,
       entity: Publication(), // Provide a dummy instance
@@ -19,9 +23,11 @@ class PublicationRepository with SupabaseDb {
   }
 
   Future<List<Publication>> getAllByIds({required List<String> ids}) async {
-    return await findByFilter<Publication>(
+    return await _db.findAll<Publication>(
       table: DbTable.publications,
-      filter: Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+      filters: [
+        Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+      ],
       entity: Publication(), // Provide a dummy instance
     );
   }
