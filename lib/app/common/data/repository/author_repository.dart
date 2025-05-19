@@ -1,9 +1,13 @@
 import 'package:lms/app/common/data/entity/author.dart';
 import 'package:lms/app/core/services/database/online/supabase_db.dart';
 
-class AuthorRepository with SupabaseDb {
+class AuthorRepository {
+  final SupabaseDb _db;
+
+  AuthorRepository(this._db);
+
   Future<List<Author>> getAll() async {
-    final data = await findAll<Author>(
+    final data = await _db.findAll<Author>(
       table: DbTable.authors,
       entity: Author(), // Provide a dummy instance
     );
@@ -11,7 +15,7 @@ class AuthorRepository with SupabaseDb {
   }
 
   Future<Author?> getById({required String id}) async {
-    return await findById<Author>(
+    return await _db.findById<Author>(
       table: DbTable.authors,
       id: id,
       entity: Author(), // Provide a dummy instance
@@ -19,10 +23,12 @@ class AuthorRepository with SupabaseDb {
   }
 
   Future<List<Author>> getAllByIds({required List<String> ids}) async {
-    return await findByFilter<Author>(
+    return await _db.findAll<Author>(
       table: DbTable.authors,
-      filter: Filter(column: 'id', operator: FilterType.inFilter, value: ids),
-      entity: Author(), // Provide a dummy instance
+      filters: [
+        Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+      ],
+      entity: Author(),
     );
   }
 }
