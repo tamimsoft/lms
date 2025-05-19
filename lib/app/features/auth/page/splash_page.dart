@@ -19,8 +19,9 @@ class SplashPage extends StatelessWidget {
       if (navigated) return;
       navigated = true;
       Future.delayed(const Duration(seconds: 3), () {
-        final isLoggedIn = controller.isAuthenticated.value;
-        Get.offAllNamed(isLoggedIn ? RoutesName.main : RoutesName.login);
+        final _ = controller.isAuthenticated.value;
+        // Get.offAllNamed(isLoggedIn ? RoutesName.main : RoutesName.login);
+        Get.offAllNamed(RoutesName.main);
       });
     });
 
