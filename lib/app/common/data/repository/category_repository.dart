@@ -2,10 +2,13 @@ import 'package:lms/app/core/services/database/online/supabase_db.dart';
 
 import '../entity/category.dart';
 
+class CategoryRepository {
+  final SupabaseDb _db;
 
-class CategoryRepository with SupabaseDb {
+  CategoryRepository(this._db);
+
   Future<List<Category>> getAll() async {
-    final data = await findAll<Category>(
+    final data = await _db.findAll<Category>(
       table: DbTable.categories,
       entity: Category(), // Provide a dummy instance
     );
@@ -13,16 +16,19 @@ class CategoryRepository with SupabaseDb {
   }
 
   Future<Category?> getById({required String id}) async {
-    return await findById<Category>(
+    return await _db.findById<Category>(
       table: DbTable.categories,
       id: id,
       entity: Category(), // Provide a dummy instance
     );
   }
+
   Future<List<Category>> getAllByIds({required List<String> ids}) async {
-    return await findByFilter<Category>(
+    return await _db.findAll<Category>(
       table: DbTable.categories,
-      filter: Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+      filters: [
+        Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+      ],
       entity: Category(), // Provide a dummy instance
     );
   }
