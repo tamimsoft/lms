@@ -6,14 +6,13 @@ import 'package:lms/app/features/home/controller/tag_controller.dart';
 
 import 'section_header.dart';
 
-class TageWiseTageWise extends StatelessWidget {
-  TageWiseTageWise({super.key});
+class TageWiseBookList extends StatelessWidget {
+  TageWiseBookList({super.key});
 
   final TageController _tageController = Get.put(TageController());
 
   @override
   Widget build(BuildContext context) {
-    _tageController.fetchTages();
     return Obx(() {
       if (_tageController.isLoading.value || _tageController.tageList.isEmpty) {
         return _shimmerPlaceholder();
@@ -62,7 +61,7 @@ class TageWiseTageWise extends StatelessWidget {
       children:
           _tageController.tageList.map((tage) {
             // Fetch books for this tag if not already loaded
-            final books = _tageController.tageWiseBooks[tage.id] ?? {};
+            final books = _tageController.tageWiseBooks[tage.id] ?? [];
             if (books.isEmpty) {
               _tageController.fetchTageWiseBooks(tage: tage);
               return const SizedBox.shrink(); // Can show shimmer placeholder here
@@ -74,7 +73,7 @@ class TageWiseTageWise extends StatelessWidget {
                 SizedBox(
                   height: 212,
                   child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
@@ -87,7 +86,7 @@ class TageWiseTageWise extends StatelessWidget {
                         (context, index) => const SizedBox(width: 8),
                   ),
                 ),
-                const SizedBox(height: 16),
+                //const SizedBox(height: 16),
               ],
             );
           }).toList(),
