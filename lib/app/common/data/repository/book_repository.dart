@@ -26,7 +26,7 @@ class BookRepository {
     return await _db.findAll<Book>(
       table: DbTable.books,
       filters: [
-        Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+        Filter(column: 'id', operator: Operator.inFilter, value: ids),
       ],
       entity: Book(), // Provide a dummy instance
     );
@@ -38,7 +38,7 @@ class BookRepository {
       filters: [
         Filter(
           column: 'tage_ids',
-          operator: FilterType.contains,
+          operator: Operator.contains,
           value: [tageId],
         ),
       ],
@@ -52,7 +52,7 @@ class BookRepository {
       filters: [
         Filter(
           column: 'category_ids',
-          operator: FilterType.contains,
+          operator: Operator.contains,
           value: [categoryId],
         ),
       ],

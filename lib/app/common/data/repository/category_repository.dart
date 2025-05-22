@@ -27,7 +27,7 @@ class CategoryRepository {
     return await _db.findAll<Category>(
       table: DbTable.categories,
       filters: [
-        Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+        Filter(column: 'id', operator: Operator.inFilter, value: ids),
       ],
       entity: Category(), // Provide a dummy instance
     );

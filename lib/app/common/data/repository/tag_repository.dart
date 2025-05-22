@@ -1,26 +1,27 @@
 import 'package:lms/app/core/services/database/online/supabase_db.dart';
-import 'package:lms/app/common/data/entity/tage.dart';
+import 'package:lms/app/common/data/entity/tag.dart';
 
 class TagRepository {
   final SupabaseDb _db;
 
   TagRepository(this._db);
 
-  Future<List<Tage>> getAll() async {
-    final data = await _db.findAll<Tage>(
+  Future<List<Tag>> getAll() async {
+    final data = await _db.findAll<Tag>(
       table: DbTable.tags,
-      entity: Tage(), // Provide a dummy instance
+      entity: Tag(), // Provide a dummy instance
+      orderBy: 'name',
     );
     return data;
   }
 
-  Future<List<Tage>> getAllByIds({required List<String> ids}) async {
-    return await _db.findAll<Tage>(
+  Future<List<Tag>> getAllByIds({required List<String> ids}) async {
+    return await _db.findAll<Tag>(
       table: DbTable.tags,
       filters: [
-        Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+        Filter(column: 'id', operator: Operator.inFilter, value: ids),
       ],
-      entity: Tage(), // Provide a dummy instance
+      entity: Tag(), // Provide a dummy instance
     );
   }
 }

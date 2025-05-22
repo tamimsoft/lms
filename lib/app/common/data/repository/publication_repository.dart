@@ -26,7 +26,7 @@ class PublicationRepository {
     return await _db.findAll<Publication>(
       table: DbTable.publications,
       filters: [
-        Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+        Filter(column: 'id', operator: Operator.inFilter, value: ids),
       ],
       entity: Publication(), // Provide a dummy instance
     );

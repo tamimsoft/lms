@@ -10,7 +10,7 @@ class CategoryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CategoryController controller = Get.put(CategoryController());
+    final CategoryController controller = CategoryController.instance;
 
     // Track selected category. Null means "All"
     final RxnString selectedCategoryId = RxnString(null);

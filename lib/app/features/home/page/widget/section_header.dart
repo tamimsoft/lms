@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lms/app/common/data/entity/tage.dart';
+import 'package:lms/app/common/data/entity/tag.dart';
 
 class SectionHeader extends StatelessWidget {
-  const SectionHeader({super.key, required this.tage});
+  const SectionHeader({super.key, required this.tag});
 
-  final Tage tage;
+  final Tag tag;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class SectionHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(tage.name!, style: Theme.of(context).textTheme.titleLarge!.copyWith(
+          Text(tag.name!, style: Theme.of(context).textTheme.titleLarge!.copyWith(
             fontWeight: FontWeight.bold
           )),
           TextButton(

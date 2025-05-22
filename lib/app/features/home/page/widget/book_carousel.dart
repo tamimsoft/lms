@@ -12,7 +12,7 @@ class BookCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final BookCarouselController controller = Get.put(BookCarouselController());
+    final BookCarouselController controller = BookCarouselController.instance;
     return Obx(() {
       if (controller.isLoading.value || controller.slideList.isEmpty) {
         return _buildPlaceholder();
@@ -56,8 +56,8 @@ class BookCarousel extends StatelessWidget {
             autoPlay: true,
             viewportFraction: 1,
             onPageChanged: (index, reason) {
-            controller.updateSlideIndex(index);
-          },
+              controller.updateSlideIndex(index);
+            },
           ),
         ),
         _indicator(controller),

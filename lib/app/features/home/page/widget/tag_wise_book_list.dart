@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms/app/common/widget/book_card.dart';
 import 'package:lms/app/common/widget/shimmer_placeholder.dart';
+import 'package:lms/app/config/routes/routes_name.dart';
 import 'package:lms/app/features/home/controller/tag_controller.dart';
 
 import 'section_header.dart';
@@ -9,7 +10,7 @@ import 'section_header.dart';
 class TageWiseBookList extends StatelessWidget {
   TageWiseBookList({super.key});
 
-  final TageController _tageController = Get.put(TageController());
+  final TagController _tageController = TagController.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -69,18 +70,26 @@ class TageWiseBookList extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SectionHeader(tage: tage),
+                SectionHeader(tag: tage),
                 SizedBox(
                   height: 212,
                   child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 2,
+                    ),
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemCount: books.length,
                     itemBuilder: (context, index) {
                       final book = books.elementAt(index);
-                      return BookCard(bookModel: book, onTap: () {});
+                      return BookCard(
+                        bookModel: book,
+                        onTap: () {
+                          Get.toNamed('${RoutesName.bookDetail}/${book.id}');
+                        },
+                      );
                     },
                     separatorBuilder:
                         (context, index) => const SizedBox(width: 8),

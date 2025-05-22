@@ -26,7 +26,7 @@ class AuthorRepository {
     return await _db.findAll<Author>(
       table: DbTable.authors,
       filters: [
-        Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+        Filter(column: 'id', operator: Operator.inFilter, value: ids),
       ],
       entity: Author(),
     );

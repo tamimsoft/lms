@@ -5,13 +5,14 @@ import 'package:lucide_icons/lucide_icons.dart';
 
 import '../controllers/navigation_bar_controller.dart';
 
-class AppNavigationBar extends GetView<NavigationBarController> {
+class AppNavigationBar extends StatelessWidget {
   const AppNavigationBar({super.key, required this.pageController});
 
   final PageController pageController;
 
   @override
   Widget build(BuildContext context) {
+    final NavigationBarController controller = NavigationBarController.instance;
     return Obx(
       () => NavigationBar(
         destinations: <Widget>[
@@ -26,6 +27,10 @@ class AppNavigationBar extends GetView<NavigationBarController> {
           NavigationDestination(
             icon: Icon(LucideIcons.heart),
             label: AppString.favoriteText,
+          ),
+          NavigationDestination(
+            icon: Icon(LucideIcons.library),
+            label: AppString.libraryText,
           ),
           NavigationDestination(
             icon: Icon(LucideIcons.user),

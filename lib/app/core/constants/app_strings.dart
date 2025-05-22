@@ -14,6 +14,7 @@ class AppString {
   static const String homeText = 'Home';
   static const String bookText = 'Books';
   static const String favoriteText = 'Favorites';
+  static const String libraryText = 'Borrowings';
   static const String profileText = 'Profile';
 
   // Login Screen text
@@ -44,5 +45,6 @@ class AppString {
       'Confirm password cannot be empty';
   static const String confirmPasswordInvalidText = 'Password does not match';
   static const String confirmPasswordText = 'Confirm Password';
+
 
 }

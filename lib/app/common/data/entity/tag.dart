@@ -1,15 +1,15 @@
 import 'package:lms/app/common/data/entity/base_entity.dart';
 
-class Tage extends BaseEntity<Tage> {
+class Tag extends BaseEntity<Tag> {
   String? id;
   String? name;
   String? slug;
 
-  Tage({this.id, this.name, this.slug});
+  Tag({this.id, this.name, this.slug});
 
   @override
-  Tage fromJson({required Map<String, dynamic> json}) {
-    return Tage(
+  Tag fromJson({required Map<String, dynamic> json}) {
+    return Tag(
       id: json['id'] ?? '',
       name: json['name'] ?? '',
       slug: json['slug'] ?? '',

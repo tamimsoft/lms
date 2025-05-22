@@ -26,7 +26,7 @@ class ReviewRepository {
     return await _db.findAll<Review>(
       table: DbTable.reviews,
       filters: [
-        Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+        Filter(column: 'id', operator: Operator.inFilter, value: ids),
       ],
       entity: Review(), // Provide a dummy instance
     );
@@ -36,7 +36,7 @@ class ReviewRepository {
     return await _db.findAll<Review>(
       table: DbTable.reviews,
       filters: [
-        Filter(column: 'book_id', operator: FilterType.eq, value: bookId),
+        Filter(column: 'book_id', operator: Operator.eq, value: bookId),
       ],
       entity: Review(), // Provide a dummy instance
     );

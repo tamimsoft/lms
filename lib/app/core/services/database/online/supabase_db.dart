@@ -11,6 +11,9 @@ abstract interface class SupabaseDb {
     List<Filter>? filters,
     int limit,
     int offset,
+    String? orderBy,
+    bool paginate = true,
+    bool isAscending = false,
   });
 
   Future<T?> findById<T extends BaseEntity<T>>({
@@ -37,7 +40,7 @@ abstract interface class SupabaseDb {
 
 final class Filter {
   final String column;
-  final FilterType operator;
+  final Operator operator;
   final dynamic value;
 
   const Filter({
@@ -64,7 +67,7 @@ enum DbTable {
   const DbTable(this.name);
 }
 
-enum FilterType {
+enum Operator {
   inFilter,
   eq,
   gt,

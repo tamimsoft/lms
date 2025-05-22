@@ -10,11 +10,11 @@ class AuthController extends GetxController {
   final isLoading = false.obs;
   final isAuthenticated = false.obs;
 
-  @override
-  void onReady() {
-    super.onReady();
-    Future.microtask(() => checkAuthStatus());
-  }
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  //   Future.microtask(() => checkAuthStatus());
+  // }
 
   void checkAuthStatus() {
     isAuthenticated(authService.isUserSignedIn);

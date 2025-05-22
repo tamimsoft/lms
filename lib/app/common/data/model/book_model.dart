@@ -3,7 +3,7 @@ import '../entity/publication.dart';
 import '../entity/category.dart';
 import '../entity/rating.dart';
 import '../entity/review.dart';
-import '../entity/tage.dart';
+import '../entity/tag.dart';
 
 extension BookSearchExtension on BookModel {
   bool matchesSearch(String query) {
@@ -41,11 +41,13 @@ class BookModel {
   final String slug;
   final String description;
   final String coverUrl;
+  final String pages;
+  final String publishedYear;
   final List<Author> authors;
   final List<Publication> publications;
   final List<Review> reviews;
   final List<Rating> ratings;
-  final List<Tage> tags;
+  final List<Tag> tags;
   final List<Category> categories;
   final bool isFavorite;
 
@@ -55,6 +57,8 @@ class BookModel {
     required this.slug,
     required this.description,
     required this.coverUrl,
+    required this.pages,
+    required this.publishedYear,
     required this.authors,
     required this.publications,
     required this.reviews,

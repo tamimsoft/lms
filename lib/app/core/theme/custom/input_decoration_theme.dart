@@ -20,21 +20,22 @@ class CustomInputDecorationTheme {
     required Color floatingLabelColor,
   }) {
     return InputDecorationTheme(
+
       labelStyle: const TextStyle(fontWeight: FontWeight.w300),
       floatingLabelStyle: TextStyle(
         fontWeight: FontWeight.w400,
         color: floatingLabelColor,
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(5)),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
         borderSide: BorderSide(color: borderColor),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(5)),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
         borderSide: BorderSide(color: floatingLabelColor, width: 1.5),
       ),
       border: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(5)),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
         borderSide: BorderSide(color: borderColor),
       ),
     );

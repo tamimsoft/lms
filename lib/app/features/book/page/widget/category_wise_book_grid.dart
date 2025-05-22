@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms/app/common/widget/book_card.dart';
 import 'package:lms/app/common/widget/shimmer_placeholder.dart';
+import 'package:lms/app/config/routes/routes_name.dart';
 import 'package:lms/app/features/book/controller/category_wise_book_controller.dart';
 
 class CategoryWiseBookGrid extends StatelessWidget {
@@ -58,7 +59,12 @@ class CategoryWiseBookGrid extends StatelessWidget {
         itemCount: books.length,
         itemBuilder: (context, index) {
           final book = books.elementAt(index);
-          return BookCard(bookModel: book, onTap: () {});
+          return BookCard(
+            bookModel: book,
+            onTap: () {
+              Get.toNamed('${RoutesName.bookDetail}/${book.id}');
+            },
+          );
         },
       ),
     );

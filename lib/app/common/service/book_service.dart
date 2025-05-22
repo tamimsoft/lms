@@ -16,7 +16,8 @@ class BookService {
   final SlideRepository _slideRepository = Get.find<SlideRepository>();
   final BookRepository _bookRepository = Get.find<BookRepository>();
   final AuthorRepository _authorRepository = Get.find<AuthorRepository>();
-  final PublicationRepository _publicationRepository = Get.find<PublicationRepository>();
+  final PublicationRepository _publicationRepository =
+      Get.find<PublicationRepository>();
   final ReviewRepository _reviewRepository = Get.find<ReviewRepository>();
   final RatingRepository _ratingRepository = Get.find<RatingRepository>();
   final TagRepository _tagRepository = Get.find<TagRepository>();
@@ -25,11 +26,13 @@ class BookService {
 
   Future<List<BookModel>> getAllBooks() async {
     try {
-      final List<Book> bookEntities = await _bookRepository.getAll();
-      debugPrint('Fetched ${bookEntities.length} book entities');
-      List<BookModel> b = await _buildBookModels(bookEntities);
-      debugPrint('Built ${b.length} book models');
-      return b;
+      final List<Book> books = await _bookRepository.getAll();
+
+      List<BookModel> bockModels = [];
+      for (var book in books) {
+        bockModels.add(await _buildBookModel(book));
+      }
+      return bockModels;
     } catch (e, stack) {
       debugPrint('Error building book models: $e');
       debugPrint(stack.toString());
@@ -39,11 +42,15 @@ class BookService {
 
   Future<List<BookModel>> getAllCarouselBooks() async {
     try {
-      final slideList = await _slideRepository.getAll();
-      final bookIds =
-          slideList.map((slide) => slide.bookId).toList();
+      final slides = await _slideRepository.getAll();
+      final bookIds = slides.map((slide) => slide.bookId).toList();
       final books = await _bookRepository.getAllByIds(ids: bookIds);
-      return await _buildBookModels(books);
+
+      List<BookModel> bockModels = [];
+      for (var book in books) {
+        bockModels.add(await _buildBookModel(book));
+      }
+      return bockModels;
     } catch (e) {
       rethrow;
     }
@@ -52,7 +59,12 @@ class BookService {
   Future<List<BookModel>> getTagWiseBooks({required String tageId}) async {
     try {
       final books = await _bookRepository.getAllByTageId(tageId: tageId);
-      return await _buildBookModels(books);
+
+      List<BookModel> bockModels = [];
+      for (var book in books) {
+        bockModels.add(await _buildBookModel(book));
+      }
+      return bockModels;
     } catch (e) {
       rethrow;
     }
@@ -65,48 +77,54 @@ class BookService {
       final books = await _bookRepository.getAllByCategoryId(
         categoryId: categoryId,
       );
-      return await _buildBookModels(books);
+      List<BookModel> bockModels = [];
+      for (var book in books) {
+        bockModels.add(await _buildBookModel(book));
+      }
+      return bockModels;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<List<BookModel>> _buildBookModels(List<Book> bookEntities) async {
-    List<BookModel> books = [];
-
-    for (var book in bookEntities) {
-      final reviews = await _reviewRepository.getAllByBookId(bookId: book.id!);
-      final ratings = await _ratingRepository.getAllByBookId(bookId: book.id!);
-      final authors = await _authorRepository.getAllByIds(ids: book.authorIds?? []);
-      debugPrint(book.authorIds.toString());
-      debugPrint(authors.length.toString());
-      final tags = await _tagRepository.getAllByIds(ids: book.tageIds?? []);
-      final publications = await _publicationRepository.getAllByIds(
-        ids: book.publicationIds!,
-      );
-      final categories = await _categoryRepository.getAllByIds(
-        ids: book.categoryIds!,
-      );
-      final isFavorite = await _userRepository.isFavoriteBook(bookId: book.id!);
-
-      books.add(
-        BookModel(
-          id: book.id!,
-          title: book.title!,
-          slug: book.slug!,
-          description: book.description!,
-          coverUrl: book.coverUrl!,
-          authors: authors,
-          tags: tags,
-          publications: publications,
-          categories: categories,
-          reviews: reviews,
-          ratings: ratings,
-          isFavorite: isFavorite,
-        ),
-      );
+  Future<BookModel?> getById({required String id}) async {
+    final Book? book = await _bookRepository.getById(id: id);
+    if (book != null) {
+      return _buildBookModel(book);
     }
 
-    return books;
+    return null;
+  }
+
+  Future<BookModel> _buildBookModel(Book book) async {
+    final reviews = await _reviewRepository.getAllByBookId(bookId: book.id!);
+    final ratings = await _ratingRepository.getAllByBookId(bookId: book.id!);
+    final authors = await _authorRepository.getAllByIds(
+      ids: book.authorIds ?? [],
+    );
+    final tags = await _tagRepository.getAllByIds(ids: book.tageIds ?? []);
+    final publications = await _publicationRepository.getAllByIds(
+      ids: book.publicationIds!,
+    );
+    final categories = await _categoryRepository.getAllByIds(
+      ids: book.categoryIds!,
+    );
+    final isFavorite = await _userRepository.isFavoriteBook(bookId: book.id!);
+    return BookModel(
+      id: book.id!,
+      title: book.title!,
+      slug: book.slug!,
+      description: book.description!,
+      coverUrl: book.coverUrl!,
+      pages: book.pages.toString(),
+      publishedYear: book.publishedYear.toString(),
+      authors: authors,
+      tags: tags,
+      publications: publications,
+      categories: categories,
+      reviews: reviews,
+      ratings: ratings,
+      isFavorite: isFavorite,
+    );
   }
 }

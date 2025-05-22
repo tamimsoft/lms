@@ -28,7 +28,7 @@ class UserRepository {
     return await _db.findAll<User>(
       table: DbTable.users,
       filters: [
-        Filter(column: 'id', operator: FilterType.inFilter, value: ids),
+        Filter(column: 'id', operator: Operator.inFilter, value: ids),
       ],
       entity: User(), // Provide a dummy instance
     );
@@ -40,7 +40,7 @@ class UserRepository {
       filters: [
         Filter(
           column: 'favorite_book_ids',
-          operator: FilterType.contains,
+          operator: Operator.contains,
           value: [bookId],
         ),
       ],

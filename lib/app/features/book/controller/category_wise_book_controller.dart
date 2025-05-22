@@ -3,8 +3,7 @@ import 'package:lms/app/common/data/model/book_model.dart';
 import 'package:lms/app/common/service/book_service.dart';
 
 class CategoryWiseBookController extends GetxController {
-  static CategoryWiseBookController get instance =>
-      Get.find<CategoryWiseBookController>();
+  static CategoryWiseBookController get instance => Get.find();
 
   final BookService _bookService = BookService();
 
@@ -53,5 +52,9 @@ class CategoryWiseBookController extends GetxController {
   void updateSearchKey(String value) {
     searchKey.value = value;
     applyFilter();
+  }
+
+  BookModel? getBookById(String id) {
+    return allBooks.firstWhereOrNull((book) => book.id == id);
   }
 }

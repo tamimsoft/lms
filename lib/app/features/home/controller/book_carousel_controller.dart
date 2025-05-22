@@ -3,8 +3,7 @@ import 'package:lms/app/common/data/model/book_model.dart';
 import 'package:lms/app/common/service/book_service.dart';
 
 class BookCarouselController extends GetxController {
-  static BookCarouselController get instance =>
-      Get.find<BookCarouselController>();
+  static BookCarouselController get instance => Get.find();
 
   final BookService _bookService = BookService();
 

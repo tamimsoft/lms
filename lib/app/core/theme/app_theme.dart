@@ -12,11 +12,13 @@ class AppTheme {
       seedColor: AppColors.primary,
       primary: AppColors.primary,
       brightness: brightness,
+
     );
 
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
+      scaffoldBackgroundColor: colorScheme.surfaceBright,
       elevatedButtonTheme: CustomButtonTheme.eBTheme,
       filledButtonTheme: CustomButtonTheme.fBTheme,
       outlinedButtonTheme: CustomButtonTheme.oBTheme,

@@ -12,6 +12,7 @@ class CarouselBookCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //return Text('data');
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),

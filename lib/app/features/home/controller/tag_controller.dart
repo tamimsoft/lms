@@ -1,17 +1,17 @@
 import 'package:get/get.dart';
-import 'package:lms/app/common/data/entity/tage.dart';
+import 'package:lms/app/common/data/entity/tag.dart';
 import 'package:lms/app/common/data/model/book_model.dart';
 import 'package:lms/app/common/data/repository/tag_repository.dart';
 import 'package:lms/app/common/service/book_service.dart';
 
-class TageController extends GetxController {
-  static TageController get instance => Get.find<TageController>();
+class TagController extends GetxController {
+  static TagController get instance => Get.find();
 
-  final TagRepository _tagRepository = Get.find<TagRepository>();
+  final TagRepository _tagRepository = Get.find();
   final BookService _bookService = BookService();
 
   final RxBool isLoading = false.obs;
-  final RxList<Tage> tageList = <Tage>[].obs;
+  final RxList<Tag> tageList = <Tag>[].obs;
   final RxMap<String, List<BookModel>> tageWiseBooks =
       <String, List<BookModel>>{}.obs;
   String error = '';
@@ -33,7 +33,7 @@ class TageController extends GetxController {
     }
   }
 
-  Future<void> fetchTageWiseBooks({required Tage tage}) async {
+  Future<void> fetchTageWiseBooks({required Tag tage}) async {
     if (tageWiseBooks.containsKey(tage.id)) return; // Avoid duplicate fetch
 
     isLoading(true);

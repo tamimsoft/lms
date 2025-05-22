@@ -5,8 +5,8 @@ import 'package:lms/app/features/auth/controller/sign_in_and_sign_up_controller.
 
 import 'widget/widgets.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginAndSignUpPage extends StatelessWidget {
+  LoginAndSignUpPage({super.key});
 
   final SignInAndSignUpController _controller = Get.put(
     SignInAndSignUpController(),

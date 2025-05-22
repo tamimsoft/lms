@@ -6,11 +6,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-      // appBar: MyAppBar(scaffoldKey: scaffoldKey),
-
-      key: scaffoldKey,
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -19,9 +15,11 @@ class HomePage extends StatelessWidget {
             const SizedBox.shrink(),
             GenericSearchBar(),
             BookCarousel(),
-            CategoryRow( onTap: (categoryId) {
-              //bookController.fetchBooks(categoryId: categoryId);
-            },),
+            CategoryRow(
+              onTap: (categoryId) {
+                //bookController.fetchBooks(categoryId: categoryId);
+              },
+            ),
             TageWiseBookList(),
             const SizedBox(height: 32),
           ],
