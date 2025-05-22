@@ -11,7 +11,7 @@ class TagController extends GetxController {
   final BookService _bookService = BookService();
 
   final RxBool isLoading = false.obs;
-  final RxList<Tag> tageList = <Tag>[].obs;
+  final RxList<Tag> tags = <Tag>[].obs;
   final RxMap<String, List<BookModel>> tageWiseBooks =
       <String, List<BookModel>>{}.obs;
   String error = '';
@@ -25,7 +25,7 @@ class TagController extends GetxController {
   Future<void> fetchTags() async {
     isLoading(true);
     try {
-      tageList.value = await _tagRepository.getAll();
+      tags.value = await _tagRepository.getAll();
     } catch (e) {
       error = e.toString();
     } finally {
@@ -38,7 +38,7 @@ class TagController extends GetxController {
 
     isLoading(true);
     try {
-      final books = await _bookService.getTagWiseBooks(tageId: tage.id!);
+      final books = await _bookService.getTagWiseBooks(tagId: tage.id!);
       tageWiseBooks[tage.id!] = books;
     } catch (e) {
       error = e.toString();

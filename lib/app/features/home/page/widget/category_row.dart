@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms/app/common/widget/shimmer_placeholder.dart';
+import 'package:lms/app/features/book/controller/book_controller.dart';
 import 'package:lms/app/features/home/controller/category_controller.dart';
 
 class CategoryRow extends StatelessWidget {
-  const CategoryRow({super.key, required this.onTap});
+  const CategoryRow({super.key});
 
-  final Function(String?) onTap;
 
   @override
   Widget build(BuildContext context) {
     final CategoryController controller = CategoryController.instance;
-
-    // Track selected category. Null means "All"
-    final RxnString selectedCategoryId = RxnString(null);
+    final BookController bookController = BookController.instance;
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Obx(() {
-        if (controller.isLoading.value || controller.categoryList.isEmpty) {
+        if (controller.isLoading.value || controller.categories.isEmpty) {
           return _buildPlaceholder();
         }
 
         // Sort categories by name (ascending)
-        final sortedCategories = [...controller.categoryList];
+        final sortedCategories = [...controller.categories];
         sortedCategories.sort(
           (a, b) => (a.name ?? '').toLowerCase().compareTo(
             (b.name ?? '').toLowerCase(),
@@ -38,10 +36,10 @@ class CategoryRow extends StatelessWidget {
             Obx(
               () => ChoiceChip(
                 label: const Text('All'),
-                selected: selectedCategoryId.value == null,
+                selected: bookController.selectedCategoryId.value == null,
                 onSelected: (selected) {
-                  selectedCategoryId.value = null;
-                  onTap(null);
+                  bookController.selectedCategoryId.value = null;
+                  bookController.fetchBooks();
                 },
               ),
             ),
@@ -50,10 +48,10 @@ class CategoryRow extends StatelessWidget {
               (category) => Obx(
                 () => ChoiceChip(
                   label: Text(category.name ?? ''),
-                  selected: selectedCategoryId.value == category.id,
+                  selected: bookController.selectedCategoryId.value == category.id,
                   onSelected: (selected) {
-                    selectedCategoryId.value = category.id;
-                    onTap(category.id!);
+                   // bookController.selectedCategoryId.value = category.id;
+                    bookController.fetchBooks(categoryId: category.id);
                   },
                 ),
               ),

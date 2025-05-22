@@ -15,7 +15,7 @@ class TageWiseBookList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (_tageController.isLoading.value || _tageController.tageList.isEmpty) {
+      if (_tageController.isLoading.value || _tageController.tags.isEmpty) {
         return _shimmerPlaceholder();
       }
       return _tageWiseBookList(context);
@@ -60,7 +60,7 @@ class TageWiseBookList extends StatelessWidget {
   Widget _tageWiseBookList(BuildContext context) {
     return Column(
       children:
-          _tageController.tageList.map((tage) {
+          _tageController.tags.map((tage) {
             // Fetch books for this tag if not already loaded
             final books = _tageController.tageWiseBooks[tage.id] ?? [];
             if (books.isEmpty) {

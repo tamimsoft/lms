@@ -24,9 +24,9 @@ class BookService {
   final CategoryRepository _categoryRepository = Get.find<CategoryRepository>();
   final UserRepository _userRepository = Get.find<UserRepository>();
 
-  Future<List<BookModel>> getAllBooks() async {
+  Future<List<BookModel>> getBooks({String? tagId, String? categoryId, String? bookId, String? searchKey}) async {
     try {
-      final List<Book> books = await _bookRepository.getAll();
+      final List<Book> books = await _bookRepository.getAll(tagId: tagId, categoryId: categoryId, bookId: bookId, searchKey: searchKey);
 
       List<BookModel> bockModels = [];
       for (var book in books) {
@@ -56,9 +56,9 @@ class BookService {
     }
   }
 
-  Future<List<BookModel>> getTagWiseBooks({required String tageId}) async {
+  Future<List<BookModel>> getTagWiseBooks({required String tagId}) async {
     try {
-      final books = await _bookRepository.getAllByTageId(tageId: tageId);
+      final books = await _bookRepository.getAllByTagId(tagId: tagId);
 
       List<BookModel> bockModels = [];
       for (var book in books) {

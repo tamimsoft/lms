@@ -20,7 +20,6 @@ class CarouselBookCard extends StatelessWidget {
         color: context.theme.colorScheme.inversePrimary.withAlpha(128),
         borderRadius: BorderRadius.circular(12),
       ),
-      alignment: Alignment.center,
       child: Row(
         children: [
           _coverImage(),
@@ -46,7 +45,9 @@ class CarouselBookCard extends StatelessWidget {
   }
 
   Widget _coverImage() {
-    return FittedBox(
+    return SizedBox(
+      width: 80,
+      height: 120,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: CustomNetworkImage(imageUrl: book.coverUrl),
@@ -55,13 +56,11 @@ class CarouselBookCard extends StatelessWidget {
   }
 
   Widget _title() {
-    return Expanded(
-      child: Text(
-        book.title,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-      ),
+    return Text(
+      book.title,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
     );
   }
 
@@ -80,7 +79,11 @@ class CarouselBookCard extends StatelessWidget {
 
   Widget _rating() {
     List<Rating> ratings = book.ratings;
-    double totalRating = ratings.fold(0, (sum, rating) => sum + rating.rating);
+
+    double totalRating =
+        ratings.isEmpty
+            ? 0.0
+            : ratings.fold(0.0, (sum, r) => sum + r.rating) / ratings.length;
 
     return Row(
       children: [

@@ -3,23 +3,22 @@ import 'package:get/get.dart';
 import 'package:lms/app/common/widget/book_card.dart';
 import 'package:lms/app/common/widget/shimmer_placeholder.dart';
 import 'package:lms/app/config/routes/routes_name.dart';
-import 'package:lms/app/features/book/controller/category_wise_book_controller.dart';
+import 'package:lms/app/core/constants/image_path.dart';
+import 'package:lms/app/features/book/controller/book_controller.dart';
 
-class CategoryWiseBookGrid extends StatelessWidget {
-  CategoryWiseBookGrid({super.key, required this.categoryId});
+class BookGrid extends StatelessWidget {
+  BookGrid({super.key});
 
-  final String categoryId;
-
-  final CategoryWiseBookController _controller = Get.put(
-    CategoryWiseBookController(),
-  );
+  final BookController _controller = BookController.instance;
 
   @override
   Widget build(BuildContext context) {
-    _controller.fetchBooks(categoryId: categoryId);
     return Obx(() {
-      if (_controller.isLoading.value || _controller.allBooks.isEmpty) {
+      if (_controller.isLoading.value) {
         return _shimmerPlaceholder();
+      }
+      if (_controller.filteredBooks.isEmpty) {
+        return Center(child: Image.asset(ImagePath.emptyFolderPng));
       }
       return _categoryWiseBookGrid(context);
     });
@@ -45,7 +44,6 @@ class CategoryWiseBookGrid extends StatelessWidget {
   }
 
   Widget _categoryWiseBookGrid(BuildContext context) {
-    final books = CategoryWiseBookController.instance.allBooks;
     return Expanded(
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),
@@ -56,9 +54,9 @@ class CategoryWiseBookGrid extends StatelessWidget {
           mainAxisSpacing: 8,
           childAspectRatio: 0.5, // Adjust to fit book card size
         ),
-        itemCount: books.length,
+        itemCount: _controller.filteredBooks.length,
         itemBuilder: (context, index) {
-          final book = books.elementAt(index);
+          final book = _controller.filteredBooks.elementAt(index);
           return BookCard(
             bookModel: book,
             onTap: () {

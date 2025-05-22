@@ -7,6 +7,7 @@ class ImagePath {
   static const String logoPng = '$_rootPath/logo.png';
   static const String noFoundPng = '$_rootPath/empty_box.png';
   static const String emptyCartPng = '$_rootPath/empty_cart.png';
+  static const String emptyFolderPng = '$_rootPath/empty_folder.png';
 
   /// Icons Path
   static const String googleSvg = '$_rootIconPath/google.svg';

@@ -8,7 +8,7 @@ class CategoryController extends GetxController {
   final CategoryRepository _categoryRepository = Get.find();
 
   final RxBool isLoading = false.obs;
-  final RxList<Category> categoryList = <Category>[].obs;
+  final RxList<Category> categories = <Category>[].obs;
   String error = '';
 
   @override
@@ -20,7 +20,7 @@ class CategoryController extends GetxController {
   Future<void> fetchCategories() async {
     isLoading(true);
     try {
-      categoryList.value = await _categoryRepository.getAll();
+      categories.value = await _categoryRepository.getAll();
     } catch (e) {
       error = e.toString();
     } finally {
