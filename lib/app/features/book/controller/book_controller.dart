@@ -13,7 +13,6 @@ class BookController extends GetxController {
   String error = '';
 
   Future<void> getBookById(String id) async {
-    print(id);
     isLoading(true);
     try {
       book.value = await _bookService.getById(id: id);
