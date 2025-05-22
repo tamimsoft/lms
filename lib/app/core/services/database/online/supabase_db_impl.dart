@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:lms/app/common/data/entity/base_entity.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -21,24 +20,15 @@ class SupabaseDbImpl implements SupabaseDb {
     bool isAscending = true,
   }) async {
     try {
-      final query = supabase.from(table.name).select();
+      var query = supabase.from(table.name).select();
       if (filters != null) {
-        for (var filter in filters) {
-          _filterQuery(filter, query);
-        }
-      }
-      final isInFilter =
-          filters?.any((f) => f.operator == Operator.inFilter) ?? false;
-
-      if (paginate && (!isInFilter || filters!.length > 1)) {
-        query.range(offset, offset + limit - 1);
+        query = _filterQuery(filters, query);
       }
       if (orderBy != null) {
         query.order(orderBy, ascending: isAscending);
       }
 
-      final response = await query;
-      //final response = await query.range(offset, offset + limit - 1);
+      final response = await query.range(offset, offset + limit - 1);
       final data = List<Map<String, dynamic>>.from(response);
       return data.map((item) => entity.fromJson(json: item)).cast<T>().toList();
     } catch (e) {
@@ -46,58 +36,61 @@ class SupabaseDbImpl implements SupabaseDb {
     }
   }
 
-  void _filterQuery(
-    Filter filter,
+  PostgrestFilterBuilder<PostgrestList> _filterQuery(
+    List<Filter> filters,
     PostgrestFilterBuilder<PostgrestList> query,
   ) {
-    debugPrint(
-      'Filtering by ${filter.column} ${filter.operator} ${filter.value}',
-    );
-
-    switch (filter.operator) {
-      case Operator.inFilter:
-        query.inFilter(filter.column, List<dynamic>.from(filter.value));
-        break;
-      case Operator.overlaps:
-        query.overlaps(filter.column, List<dynamic>.from(filter.value));
-        break;
-      case Operator.eq:
-        query.eq(filter.column, filter.value);
-        break;
-      case Operator.gt:
-        query.gt(filter.column, filter.value);
-        break;
-      case Operator.gte:
-        query.gte(filter.column, filter.value);
-        break;
-      case Operator.lt:
-        query.lt(filter.column, filter.value);
-        break;
-      case Operator.lte:
-        query.lte(filter.column, filter.value);
-        break;
-      case Operator.like:
-        query.like(filter.column, filter.value);
-        break;
-      case Operator.contains:
-        query.contains(filter.column, filter.value);
-        break;
-      case Operator.ilike:
-        query.ilike(filter.column, filter.value);
-        break;
-      case Operator.ilikeAllOf:
-        query.ilikeAllOf(filter.column, List<String>.from(filter.value));
-        break;
-      case Operator.ilikeAnyOf:
-        query.ilikeAnyOf(filter.column, List<String>.from(filter.value));
-        break;
-      case Operator.likeAllOf:
-        query.likeAllOf(filter.column, List<String>.from(filter.value));
-        break;
-      case Operator.likeAnyOf:
-        query.ilikeAnyOf(filter.column, List<String>.from(filter.value));
-        break;
+    for (var filter in filters) {
+      switch (filter.operator) {
+        case Operator.inFilter:
+          final list = List<dynamic>.from(filter.value);
+          query = query.inFilter(filter.column, list);
+          break;
+        case Operator.overlaps:
+          query = query.overlaps(
+            filter.column,
+            List<dynamic>.from(filter.value),
+          );
+          break;
+        case Operator.eq:
+          query = query.eq(filter.column, filter.value);
+          break;
+        case Operator.gt:
+          query = query.gt(filter.column, filter.value);
+          break;
+        case Operator.gte:
+          query = query.gte(filter.column, filter.value);
+          break;
+        case Operator.lt:
+          query = query.lt(filter.column, filter.value);
+          break;
+        case Operator.lte:
+          query = query.lte(filter.column, filter.value);
+          break;
+        case Operator.like:
+          query = query.like(filter.column, filter.value);
+          break;
+        case Operator.contains:
+          query = query.contains(filter.column, filter.value);
+          break;
+        case Operator.ilike:
+          query = query.ilike(filter.column, filter.value);
+          break;
+        case Operator.ilikeAllOf:
+          query.ilikeAllOf(filter.column, List<String>.from(filter.value));
+          break;
+        case Operator.ilikeAnyOf:
+          query.ilikeAnyOf(filter.column, List<String>.from(filter.value));
+          break;
+        case Operator.likeAllOf:
+          query.likeAllOf(filter.column, List<String>.from(filter.value));
+          break;
+        case Operator.likeAnyOf:
+          query.ilikeAnyOf(filter.column, List<String>.from(filter.value));
+          break;
+      }
     }
+    return query;
   }
 
   @override
