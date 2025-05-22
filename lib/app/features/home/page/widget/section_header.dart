@@ -21,6 +21,7 @@ class SectionHeader extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                IconButton(onPressed: (){}, icon: Icon(Icons.grid_view_rounded)),
                 Text(
                   'View all',
                   style: TextStyle(

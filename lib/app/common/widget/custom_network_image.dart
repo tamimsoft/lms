@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:lms/app/core/constants/image_path.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import 'shimmer_placeholder.dart';
@@ -29,10 +31,14 @@ class CustomNetworkImage extends StatelessWidget {
       height: height,
       fit: BoxFit.cover,
       placeholder: (context, url) => const ShimmerPlaceholder(),
-      errorWidget: (context, url, error) => Center(
-        child: Icon(LucideIcons.imageOff),
-        //child: Image.asset(ImagePath.noFoundPng),
-      ),
+      errorWidget:
+          (context, url, error) => Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Image.asset(ImagePath.imageNotFoundPng),
+            ),
+            //child: Image.asset(ImagePath.noFoundPng),
+          ),
     );
   }
 }

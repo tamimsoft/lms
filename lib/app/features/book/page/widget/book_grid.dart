@@ -18,7 +18,13 @@ class BookGrid extends StatelessWidget {
         return _shimmerPlaceholder();
       }
       if (_controller.filteredBooks.isEmpty) {
-        return Center(child: Image.asset(ImagePath.emptyFolderPng));
+        return Center(
+          child: SizedBox(
+            height: context.height / 2,
+            width: context.width / 2,
+            child: Image.asset(ImagePath.emptyFolderPng),
+          ),
+        );
       }
       return _categoryWiseBookGrid(context);
     });
