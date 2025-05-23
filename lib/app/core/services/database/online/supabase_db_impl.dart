@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:lms/app/common/data/entity/base_entity.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'supabase_db.dart';
+import '../app_db.dart';
 
-class SupabaseDbImpl implements SupabaseDb {
+class SupabaseDbImpl implements AppDb {
   final SupabaseClient supabase = Supabase.instance.client;
 
   @override

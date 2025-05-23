@@ -1,8 +1,8 @@
 import 'package:lms/app/common/data/entity/book.dart';
-import 'package:lms/app/core/services/database/online/supabase_db.dart';
+import 'package:lms/app/core/services/database/app_db.dart';
 
 class BookRepository {
-  final SupabaseDb _db;
+  final AppDb _db;
 
   BookRepository(this._db);
 

@@ -1,9 +1,9 @@
-import 'package:lms/app/core/services/database/online/supabase_db.dart';
+import 'package:lms/app/core/services/database/app_db.dart';
 
 import '../entity/category.dart';
 
 class CategoryRepository {
-  final SupabaseDb _db;
+  final AppDb _db;
 
   CategoryRepository(this._db);
 

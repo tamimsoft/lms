@@ -6,9 +6,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../controllers/navigation_bar_controller.dart';
 
 class AppNavigationBar extends StatelessWidget {
-  const AppNavigationBar({super.key, required this.pageController});
-
-  final PageController pageController;
+  const AppNavigationBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +40,6 @@ class AppNavigationBar extends StatelessWidget {
         elevation: 2,
         onDestinationSelected: (index) {
           controller.onDestinationSelected(index);
-          pageController.animateToPage(
-            index,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          );
         },
       ),
     );

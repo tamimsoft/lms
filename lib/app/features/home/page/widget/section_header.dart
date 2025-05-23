@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lms/app/common/data/entity/tag.dart';
 
 class SectionHeader extends StatelessWidget {
@@ -13,15 +14,17 @@ class SectionHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(tag.name!, style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            fontWeight: FontWeight.bold
-          )),
+          Text(
+            tag.name!,
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+          ),
           TextButton(
             onPressed: () {},
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(onPressed: (){}, icon: Icon(Icons.grid_view_rounded)),
                 Text(
                   'View all',
                   style: TextStyle(

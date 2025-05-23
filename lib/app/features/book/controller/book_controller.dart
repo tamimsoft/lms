@@ -7,10 +7,15 @@ class BookController extends GetxController {
   static BookController get instance => Get.find();
 
   final BookService _bookService = BookService();
+  Set<String> fetchedTagIds = {};
 
   final RxBool isLoading = false.obs;
   final RxList<BookModel> _allBooks = <BookModel>[].obs;
   final RxList<BookModel> filteredBooks = <BookModel>[].obs;
+
+  // final RxMap<String, List<BookModel>> tagWiseBooks =
+  //     <String, List<BookModel>>{}.obs;
+  final Map<String, List<BookModel>> tagWiseBooks = {};
 
   final RxString searchKey = ''.obs;
 
@@ -37,12 +42,23 @@ class BookController extends GetxController {
         selectedCategoryId.value = categoryId;
       }
       final books = await _bookService.getBooks(
-        tagId: selectedTagId.value ,
+        tagId: selectedTagId.value,
         categoryId: selectedCategoryId.value,
         bookId: bookId,
       );
-      _allBooks.value = books.toList();
-      debugPrint('Fetched ${books.length} books');
+      if (tagId != null && tagId.isNotEmpty) {
+        if (!tagWiseBooks.containsKey(tagId)) {
+          tagWiseBooks[tagId] = books;
+        }
+      }
+      //Merge without duplication
+      // final merged =
+      //     {
+      //       for (var b in [..._allBooks, ...books]) b.id: b,
+      //     }.values.toList();
+      //
+      // _allBooks.assignAll(merged);
+      _allBooks.value = books;
       applyFilter();
     } catch (e) {
       error = e.toString();

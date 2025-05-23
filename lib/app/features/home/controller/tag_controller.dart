@@ -33,13 +33,13 @@ class TagController extends GetxController {
     }
   }
 
-  Future<void> fetchTageWiseBooks({required Tag tage}) async {
-    if (tageWiseBooks.containsKey(tage.id)) return; // Avoid duplicate fetch
+  Future<void> fetchTageWiseBooks({required Tag tag}) async {
+    if (tageWiseBooks.containsKey(tag.id)) return; // Avoid duplicate fetch
 
     isLoading(true);
     try {
-      final books = await _bookService.getTagWiseBooks(tagId: tage.id!);
-      tageWiseBooks[tage.id!] = books;
+      final books = await _bookService.getTagWiseBooks(tagId: tag.id!);
+      tageWiseBooks[tag.id!] = books;
     } catch (e) {
       error = e.toString();
     } finally {

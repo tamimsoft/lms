@@ -71,7 +71,7 @@ class BookPage extends StatelessWidget {
       body: Column(
         spacing: 16,
         children: [
-          SizedBox(width: 16),
+          SizedBox(width: 8),
           SearchAndFilterBar(selectedValue: '0', onChanged: (value) {}),
           CategoryRow(),
           BookGrid(),

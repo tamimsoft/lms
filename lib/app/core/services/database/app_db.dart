@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:lms/app/common/data/entity/base_entity.dart';
 
-abstract interface class SupabaseDb {
+abstract interface class AppDb {
   Future<List<T>> findAll<T extends BaseEntity<T>>({
     required DbTable table,
     required T entity,

@@ -2,9 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:lms/app/common/data/entity/author.dart';
 import 'package:lms/app/common/data/repository/author_repository.dart';
-import 'package:lms/app/core/services/database/online/supabase_db.dart';
+import 'package:lms/app/core/services/database/app_db.dart';
 
-class MockSupabaseDb extends Mock implements SupabaseDb {}
+class MockSupabaseDb extends Mock implements AppDb {}
 
 class FakeAuthor extends Fake implements Author {}
 

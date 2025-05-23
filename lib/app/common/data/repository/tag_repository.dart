@@ -1,8 +1,8 @@
-import 'package:lms/app/core/services/database/online/supabase_db.dart';
+import 'package:lms/app/core/services/database/app_db.dart';
 import 'package:lms/app/common/data/entity/tag.dart';
 
 class TagRepository {
-  final SupabaseDb _db;
+  final AppDb _db;
 
   TagRepository(this._db);
 

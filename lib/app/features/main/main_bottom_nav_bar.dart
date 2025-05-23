@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:lms/app/common/service/connectivity_service.dart';
 import 'package:lms/app/features/book/controller/book_controller.dart';
 import 'package:lms/app/features/book/page/book_page.dart';
 import 'package:lms/app/features/home/controller/book_carousel_controller.dart';
@@ -16,10 +17,10 @@ class MainBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PageController pageController = PageController();
     final NavigationBarController controller = NavigationBarController.instance;
     return Scaffold(
       appBar: AppBar(
+
         leading: Obx(() {
           final index = controller.selectedIndex.value;
           final PageMeta page = controller.pageMetaList.elementAt(index);
@@ -34,9 +35,12 @@ class MainBottomNavBar extends StatelessWidget {
             subtitle:
                 page.subtitle.isEmpty
                     ? null
-                    : Text(
-                      page.subtitle,
-                      style: TextStyle(fontWeight: FontWeight.w400),
+                    : Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Text(
+                        page.subtitle,
+                        style: TextStyle(fontWeight: FontWeight.w400),
+                      ),
                     ),
           );
         }),
@@ -51,35 +55,49 @@ class MainBottomNavBar extends StatelessWidget {
         ],
       ),
 
-      // body: SafeArea(
-      //   child: PageView(
-      //     controller: pageController,
-      //     onPageChanged: (index) {
-      //       controller.onDestinationSelected(index);
-      //     },
-      //     children: controller.pages,
-      //   ),
-      // ),
       body: Obx(() {
         final index = controller.selectedIndex.value;
-        return IndexedStack(
-          index: index,
+        final bool isOnline = Get.find<ConnectivityService>().isOnline;
+
+        return Column(
           children: [
-            Get.isRegistered<BookCarouselController>()
-                ? const HomePage()
-                : const SizedBox.shrink(),
-            Get.isRegistered<BookController>()
-                ? const BookPage()
-                : const SizedBox.shrink(),
-            const Center(child: Text('Favorites')),
-            const Center(child: Text('Borrowings')),
-            Get.isRegistered<ProfileController>()
-                ? const ProfilePage()
-                : const SizedBox.shrink(),
+            if (!isOnline)
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 2,
+                  children: [
+                    Icon(Icons.cloud_off),
+                     Text(
+                      'There is no internet',
+                     style: TextStyle(fontWeight: FontWeight.bold)
+                    ),
+                  ],
+                ),
+              ),
+            Expanded(
+              child: IndexedStack(
+                index: index,
+                children: [
+                  Get.isRegistered<BookCarouselController>()
+                      ? const HomePage()
+                      : const SizedBox.shrink(),
+                  Get.isRegistered<BookController>()
+                      ? const BookPage()
+                      : const SizedBox.shrink(),
+                  const Center(child: Text('Favorites')),
+                  const Center(child: Text('Borrowings')),
+                  Get.isRegistered<ProfileController>()
+                      ? const ProfilePage()
+                      : const SizedBox.shrink(),
+                ],
+              ),
+            ),
           ],
         );
       }),
-      bottomNavigationBar: AppNavigationBar(pageController: pageController),
+      bottomNavigationBar: AppNavigationBar(),
     );
   }
 }
