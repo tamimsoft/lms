@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms/app/common/widget/shimmer_placeholder.dart';
-import 'package:lms/app/features/book/controller/book_details_controller.dart';
+import 'package:lms/app/features/book_details/controller/book_details_controller.dart';
 
-import 'book_details_info_column.dart';
+import 'info_column.dart';
+
 
 class TitleAndAuthor extends StatelessWidget {
   const TitleAndAuthor({super.key});

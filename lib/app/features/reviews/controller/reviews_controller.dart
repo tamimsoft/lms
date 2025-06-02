@@ -93,7 +93,23 @@ class ReviewsController extends GetxController {
         ),
       ].obs;
 
-  Future<void> getReviewsByBookId(bookId) async {
-    reviews.value = await _repository.getAllByBookId(bookId: bookId);
+  final RxBool isLoading = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    final id = Get.parameters['id'];
+    if (id != null) {
+      fetchReviewsByBookId(id);
+    }
+  }
+
+  Future<void> fetchReviewsByBookId(bookId) async {
+    isLoading(true);
+    try {
+      reviews.value = await _repository.getAllByBookId(bookId: bookId);
+    } finally {
+      isLoading(false);
+    }
   }
 }

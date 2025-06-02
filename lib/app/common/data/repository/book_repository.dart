@@ -14,7 +14,6 @@ class BookRepository {
       fromJson: (json) => BookDetails.fromJson(json),
       toJson: (b) => b.toJson(),
     );
-
     return books.first;
   }
 
@@ -23,13 +22,10 @@ class BookRepository {
     String? categoryId,
   }) async {
     return await _db.callRpc(
-      // functionName: DbFunction.getBooks.name,
       functionName: 'get_books',
       fromJson: (json) => Book.fromJson(json),
       toJson: (b) => b.toJson(),
       params: {'tid': tagId, 'cid': categoryId},
     );
   }
-
-
 }

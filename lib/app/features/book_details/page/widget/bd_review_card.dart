@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../common/data/model/review.dart';
 import 'star_widget.dart';
 
-class BookDetailsPageReviewCard extends StatelessWidget {
-  const BookDetailsPageReviewCard({super.key, required this.review});
+class BDReviewCard extends StatelessWidget {
+  const BDReviewCard({super.key, required this.review});
 
   final Review review;
 

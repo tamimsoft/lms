@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lms/app/common/data/model/author.dart';
 import 'package:lms/app/common/data/model/slide.dart';
 import 'package:lms/app/common/widget/custom_network_image.dart';
 import 'package:lms/app/config/routes/routes_name.dart';
@@ -65,11 +64,9 @@ class CarouselBookCard extends StatelessWidget {
   }
 
   Widget _author() {
-    List<Author> authors = slide.authors;
-    String authorNames = authors.map((author) => author.name).join(', ');
     return Expanded(
       child: Text(
-        authorNames,
+        slide.authors.join(', '),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(fontSize: 13),

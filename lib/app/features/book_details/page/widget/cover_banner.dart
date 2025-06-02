@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:lms/app/common/data/model/book_details.dart';
 import 'package:lms/app/common/widget/custom_network_image.dart';
 import 'package:lms/app/common/widget/shimmer_placeholder.dart';
-import 'package:lms/app/features/book/controller/book_details_controller.dart';
+import 'package:lms/app/features/book_details/controller/book_details_controller.dart';
 
 class BookCoverBanner extends StatelessWidget {
   const BookCoverBanner({super.key});

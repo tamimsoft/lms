@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lms/app/features/book/controller/book_preview_controller.dart';
-
+import 'package:lms/app/features/book_details/controller/book_preview_controller.dart';
 
 class BookPreviewPage extends StatelessWidget {
   final BookPreviewController controller = Get.put(BookPreviewController());

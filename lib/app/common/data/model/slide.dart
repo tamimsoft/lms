@@ -1,12 +1,10 @@
-import 'author.dart';
-
 class Slide {
   final String id;
   final String title;
   final String coverUrl;
   final String shortDescription;
   final double avgRating;
-  final List<Author> authors;
+  final List<String> authors;
 
   Slide({
     required this.id,
@@ -24,10 +22,7 @@ class Slide {
       coverUrl: json['cover_url'],
       shortDescription: json['short_description'],
       avgRating: json['avg_rating'],
-      authors:
-          json['authors']
-              .map<Author>((author) => Author.fromJson(author))
-              .toList(),
+      authors: List<String>.from(json['authors']),
     );
   }
 
@@ -38,7 +33,7 @@ class Slide {
       'cover_url': coverUrl,
       'short_description': shortDescription,
       'avg_rating': avgRating,
-      'authors': authors.map((author) => author.toJson()).toList(),
+      'authors': authors,
     };
   }
 }

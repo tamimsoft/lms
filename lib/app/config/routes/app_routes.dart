@@ -3,11 +3,11 @@ import 'package:lms/app/features/auth/binding/auth_bindings.dart';
 import 'package:lms/app/features/auth/page/sign_in_sign_up_page.dart';
 import 'package:lms/app/features/auth/page/splash_page.dart';
 import 'package:lms/app/features/book/binding/book_bindings.dart';
-import 'package:lms/app/features/book/binding/book_details_bindings.dart';
 import 'package:lms/app/features/book/page/add_edit_book_page.dart';
-import 'package:lms/app/features/book/page/book_details_page.dart';
 import 'package:lms/app/features/book/page/book_page.dart';
-import 'package:lms/app/features/book/page/book_preview_page.dart';
+import 'package:lms/app/features/book_details/binding/book_details_bindings.dart';
+import 'package:lms/app/features/book_details/page/book_details_page.dart';
+import 'package:lms/app/features/book_details/page/book_preview_page.dart';
 import 'package:lms/app/features/borrowing/binding/borrowing_bindings.dart';
 import 'package:lms/app/features/borrowing/page/borrowing_page.dart';
 import 'package:lms/app/features/home/binding/home_bindings.dart';
@@ -57,8 +57,8 @@ class AppRoutes {
       page: () => BookDetailPage(),
       binding: BookDetailsBindings(),
     ),
-    GetPage(name: RoutesName.bookAddEdit, page: () => AddEditBookPage()),
     GetPage(name: RoutesName.bookPreview, page: () => BookPreviewPage()),
+    GetPage(name: RoutesName.bookAddEdit, page: () => AddEditBookPage()),
 
     GetPage(
       name: RoutesName.wishlist,

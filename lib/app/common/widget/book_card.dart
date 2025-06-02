@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lms/app/common/data/model/author.dart';
 import 'package:lms/app/common/data/model/book.dart';
 import 'package:lms/app/common/widget/custom_network_image.dart';
 
@@ -97,10 +96,8 @@ class BookCard extends StatelessWidget {
   }
 
   Widget _author() {
-    List<Author> authors = book.authors;
-    String authorNames = authors.map((author) => author.name).join(', ');
     return Text(
-      authorNames,
+      book.authors.join(', '),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(fontSize: 12, color: Colors.grey),
@@ -112,11 +109,7 @@ class BookCard extends StatelessWidget {
       children: [
         const Icon(Icons.star, size: 16, color: Color(0xFFEEA427)),
         const SizedBox(width: 4),
-        Text(
-          book.avgRating.toString(),
-          // book.avgRating.toStringAsFixed(1),
-          style: const TextStyle(fontSize: 12),
-        ),
+        Text(book.avgRating.toString(), style: const TextStyle(fontSize: 12)),
       ],
     );
   }

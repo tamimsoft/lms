@@ -1,11 +1,9 @@
-import 'author.dart';
-
 class Book {
   final String id;
   final String title;
   final String coverUrl;
   final num avgRating;
-  final List<Author> authors;
+  final List<String> authors;
 
   Book({
     required this.id,
@@ -21,10 +19,7 @@ class Book {
       title: json['title'],
       coverUrl: json['cover_url'],
       avgRating: json['avg_rating'],
-      authors:
-          json['authors']
-              .map<Author>((author) => Author.fromJson(author))
-              .toList(),
+      authors: List<String>.from(json['authors']),
     );
   }
 
@@ -34,7 +29,7 @@ class Book {
       'title': title,
       'cover_url': coverUrl,
       'avg_rating': avgRating,
-      'authors': authors.map((author) => author.toJson()).toList(),
+      'authors': authors,
     };
   }
 }
