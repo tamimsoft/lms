@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class GenericSearchBar extends StatelessWidget {
   final TextEditingController? controller;
@@ -33,11 +32,11 @@ class GenericSearchBar extends StatelessWidget {
           onChanged: onChanged,
           decoration: InputDecoration(
             hintText: hintText,
-            prefixIcon: const Icon(LucideIcons.search),
+            prefixIcon: const Icon(Icons.search_outlined),
             suffixIcon:
                 controller != null && controller!.text.isNotEmpty
                     ? IconButton(
-                      icon: const Icon(LucideIcons.removeFormatting),
+                      icon: const Icon(Icons.close_outlined),
                       onPressed: () {
                         controller?.clear();
                         onClear?.call();

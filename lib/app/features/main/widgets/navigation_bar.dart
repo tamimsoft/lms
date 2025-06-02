@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms/app/core/constants/app_strings.dart';
-import 'package:lucide_icons/lucide_icons.dart';
-
-import '../controllers/navigation_bar_controller.dart';
+import 'package:lms/app/features/main/controllers/navigation_bar_controller.dart';
 
 class AppNavigationBar extends StatelessWidget {
   const AppNavigationBar({super.key});
@@ -15,23 +13,23 @@ class AppNavigationBar extends StatelessWidget {
       () => NavigationBar(
         destinations: <Widget>[
           NavigationDestination(
-            icon: Icon(LucideIcons.home),
+            icon: Icon(Icons.home_outlined),
             label: AppString.homeText,
           ),
           NavigationDestination(
-            icon: Icon(LucideIcons.bookOpen),
+            icon: Icon(Icons.menu_book_outlined),
             label: AppString.bookText,
           ),
           NavigationDestination(
-            icon: Icon(LucideIcons.heart),
-            label: AppString.favoriteText,
+            icon: Icon(Icons.favorite_outline),
+            label: AppString.wishlistText,
           ),
           NavigationDestination(
-            icon: Icon(LucideIcons.library),
+            icon: Icon(Icons.clear_all_outlined),
             label: AppString.libraryText,
           ),
           NavigationDestination(
-            icon: Icon(LucideIcons.user),
+            icon: Icon(Icons.person_outline),
             label: AppString.profileText,
           ),
         ],

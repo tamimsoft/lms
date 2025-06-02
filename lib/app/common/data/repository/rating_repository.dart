@@ -1,4 +1,4 @@
-import 'package:lms/app/common/data/entity/rating.dart';
+import 'package:lms/app/common/data/model/rating.dart';
 import 'package:lms/app/core/services/database/app_db.dart';
 
 class RatingRepository {
@@ -9,7 +9,8 @@ class RatingRepository {
   Future<List<Rating>> getAll() async {
     final data = await _db.findAll<Rating>(
       table: DbTable.ratings,
-      entity: Rating(), // Provide a dummy instance
+      fromJson: (json) => Rating.fromJson(json),
+      toJson: (item) => item.toJson(),
     );
     return data;
   }
@@ -18,7 +19,8 @@ class RatingRepository {
     return await _db.findById<Rating>(
       table: DbTable.ratings,
       id: id,
-      entity: Rating(), // Provide a dummy instance
+      fromJson: (json) => Rating.fromJson(json),
+      toJson: (item) => item.toJson(),
     );
   }
 
@@ -28,7 +30,8 @@ class RatingRepository {
       filters: [
         Filter(column: 'id', operator: Operator.inFilter, value: ids),
       ],
-      entity: Rating(), // Provide a dummy instance
+      fromJson: (json) => Rating.fromJson(json),
+      toJson: (item) => item.toJson(),
     );
   }
 
@@ -38,7 +41,8 @@ class RatingRepository {
       filters: [
         Filter(column: 'book_id', operator: Operator.eq, value: bookId),
       ],
-      entity: Rating(), // Provide a dummy instance
+      fromJson: (json) => Rating.fromJson(json),
+      toJson: (item) => item.toJson(),
     );
   }
 }

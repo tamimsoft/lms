@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:lms/app/common/data/entity/author.dart';
-import 'package:lms/app/common/data/entity/rating.dart';
-import 'package:lms/app/common/data/model/book_model.dart';
+import 'package:lms/app/common/data/model/author.dart';
+import 'package:lms/app/common/data/model/book.dart';
 import 'package:lms/app/common/widget/custom_network_image.dart';
 
 class BookCard extends StatelessWidget {
-  final VoidCallback? onTap;
-  final VoidCallback? onFavoriteToggle;
-  final BookModel bookModel;
-
   const BookCard({
     super.key,
     this.onTap,
     this.onFavoriteToggle,
-    required this.bookModel,
+    required this.book,
   });
+
+  final VoidCallback? onTap;
+  final VoidCallback? onFavoriteToggle;
+  final Book book;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class BookCard extends StatelessWidget {
                     topRight: Radius.circular(12),
                   ),
                   child: CustomNetworkImage(
-                    imageUrl: bookModel.coverUrl,
+                    imageUrl: book.coverUrl,
                     height: 140, // Equivalent to h-56
                     width: 112,
                     fit: BoxFit.cover,
@@ -48,19 +47,19 @@ class BookCard extends StatelessWidget {
                       width: 32,
                       height: 32,
                       decoration: BoxDecoration(
-                        color:
-                            bookModel.isFavorite
-                                ? Colors.red
-                                : Colors.white.withValues(alpha: 0.8 * 255),
+                        // color:
+                        //     book.isFavorite
+                        //         ? Colors.red
+                        //         : Colors.white.withValues(alpha: 0.8 * 255),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
-                        Icons.favorite,
+                        Icons.favorite_outline,
                         size: 16,
-                        color:
-                            bookModel.isFavorite
-                                ? Colors.white
-                                : Colors.grey[600],
+                        // color:
+                        //     book.isFavorite
+                        //         ? Colors.white
+                        //         : Colors.grey[600],
                       ),
                     ),
                   ),
@@ -77,7 +76,7 @@ class BookCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      bookModel.title,
+                      book.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -98,7 +97,7 @@ class BookCard extends StatelessWidget {
   }
 
   Widget _author() {
-    List<Author> authors = bookModel.authors;
+    List<Author> authors = book.authors;
     String authorNames = authors.map((author) => author.name).join(', ');
     return Text(
       authorNames,
@@ -109,15 +108,13 @@ class BookCard extends StatelessWidget {
   }
 
   Widget _rating() {
-    List<Rating> ratings = bookModel.ratings;
-    double totalRating = ratings.fold(0, (sum, rating) => sum + rating.rating);
-
     return Row(
       children: [
         const Icon(Icons.star, size: 16, color: Color(0xFFEEA427)),
         const SizedBox(width: 4),
         Text(
-          totalRating.toStringAsFixed(1),
+          book.avgRating.toString(),
+          // book.avgRating.toStringAsFixed(1),
           style: const TextStyle(fontSize: 12),
         ),
       ],

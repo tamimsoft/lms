@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:lms/app/common/data/entity/author.dart';
+import 'package:lms/app/common/data/model/author.dart';
 import 'package:lms/app/common/data/repository/author_repository.dart';
 import 'package:lms/app/core/services/database/app_db.dart';
 
@@ -13,9 +13,9 @@ void main() {
   late AuthorRepository repository;
 
   final mockAuthors = [
-    Author(id: '1', name: 'Author 1'),
-    Author(id: '2', name: 'Author 2'),
-    Author(id: '3', name: 'Author 3'),
+    Author(id: '1', name: 'John Doe', slug: 'john-doe'),
+    Author(id: '2', name: 'Jane Doe', slug: 'jane-doe'),
+    Author(id: '3', name: 'Jimmy Doe', slug: 'jimmy-doe'),
   ];
 
   setUpAll(() {
@@ -29,62 +29,79 @@ void main() {
 
   group('AuthorRepository Tests', () {
     test('getAll() returns list of authors', () async {
-      when(() => mockDb.findAll<Author>(
-        table: DbTable.authors,
-        entity: any(named: 'entity'),
-        filters: any(named: 'filters'),
-        limit: any(named: 'limit'),
-        offset: any(named: 'offset'),
-      )).thenAnswer((_) async => mockAuthors);
+      when(
+        () => mockDb.findAll<Author>(
+          table: DbTable.authors,
+          fromJson: (json) => Author.fromJson(json),
+          toJson: (entity) => entity.toJson(),
+          filters: any(named: 'filters'),
+          limit: any(named: 'limit'),
+          offset: any(named: 'offset'),
+        ),
+      ).thenAnswer((_) async => mockAuthors);
 
       final result = await repository.getAll();
       expect(result, mockAuthors);
-      verify(() => mockDb.findAll<Author>(
-        table: DbTable.authors,
-        entity: any(named: 'entity'),
-        filters: any(named: 'filters'),
-        limit: any(named: 'limit'),
-        offset: any(named: 'offset'),
-      )).called(1);
+      verify(
+        () => mockDb.findAll<Author>(
+          table: DbTable.authors,
+          fromJson: (json) => Author.fromJson(json),
+          toJson: (entity) => entity.toJson(),
+          filters: any(named: 'filters'),
+          limit: any(named: 'limit'),
+          offset: any(named: 'offset'),
+        ),
+      ).called(1);
     });
 
     test('getById() returns a single author', () async {
       final author = mockAuthors.first;
-      when(() => mockDb.findById<Author>(
-        table: DbTable.authors,
-        id: any(named: 'id'),
-        entity: any(named: 'entity'),
-      )).thenAnswer((_) async => author);
+      when(
+        () => mockDb.findById<Author>(
+          table: DbTable.authors,
+          id: any(named: 'id'),
+          fromJson: (json) => Author.fromJson(json),
+          toJson: (entity) => entity.toJson(),
+        ),
+      ).thenAnswer((_) async => author);
 
       final result = await repository.getById(id: '1');
       expect(result, author);
-      verify(() => mockDb.findById<Author>(
-        table: DbTable.authors,
-        id: any(named: 'id'),
-        entity: any(named: 'entity'),
-      )).called(1);
+      verify(
+        () => mockDb.findById<Author>(
+          table: DbTable.authors,
+          id: any(named: 'id'),
+          fromJson: (json) => Author.fromJson(json),
+          toJson: (entity) => entity.toJson(),
+        ),
+      ).called(1);
     });
 
     test('getAllByIds() returns authors with matching ids', () async {
       final ids = ['1', '2'];
-      when(() => mockDb.findAll<Author>(
-        table: DbTable.authors,
-        filters: any(named: 'filters'),
-        entity: any(named: 'entity'),
-        limit: any(named: 'limit'),
-        offset: any(named: 'offset'),
-      )).thenAnswer((_) async => mockAuthors);
+      when(
+        () => mockDb.findAll<Author>(
+          table: DbTable.authors,
+          filters: any(named: 'filters'),
+          fromJson: (json) => Author.fromJson(json),
+          toJson: (entity) => entity.toJson(),
+          limit: any(named: 'limit'),
+          offset: any(named: 'offset'),
+        ),
+      ).thenAnswer((_) async => mockAuthors);
 
       final result = await repository.getAllByIds(ids: ids);
       expect(result, mockAuthors);
-      verify(() => mockDb.findAll<Author>(
-        table: DbTable.authors,
-        filters: any(named: 'filters'),
-        entity: any(named: 'entity'),
-        limit: any(named: 'limit'),
-        offset: any(named: 'offset'),
-      )).called(1);
+      verify(
+        () => mockDb.findAll<Author>(
+          table: DbTable.authors,
+          filters: any(named: 'filters'),
+          fromJson: (json) => Author.fromJson(json),
+          toJson: (entity) => entity.toJson(),
+          limit: any(named: 'limit'),
+          offset: any(named: 'offset'),
+        ),
+      ).called(1);
     });
   });
 }
-

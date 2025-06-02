@@ -31,46 +31,44 @@ class BookGrid extends StatelessWidget {
   }
 
   Widget _shimmerPlaceholder() {
-    return Expanded(
-      child: GridView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        physics: const BouncingScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          childAspectRatio: 0.5, // Width / Height ratio (adjust as needed)
-        ),
-        itemCount: 9,
-        itemBuilder: (BuildContext context, int index) {
-          return ShimmerPlaceholder();
-        },
+    return GridView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+        childAspectRatio: 0.5, // Width / Height ratio (adjust as needed)
       ),
+      itemCount: 9,
+      itemBuilder: (BuildContext context, int index) {
+        return ShimmerPlaceholder();
+      },
     );
   }
 
   Widget _categoryWiseBookGrid(BuildContext context) {
-    return Expanded(
-      child: GridView.builder(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3, // 3 items per row
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          childAspectRatio: 0.5, // Adjust to fit book card size
-        ),
-        itemCount: _controller.filteredBooks.length,
-        itemBuilder: (context, index) {
-          final book = _controller.filteredBooks.elementAt(index);
-          return BookCard(
-            bookModel: book,
-            onTap: () {
-              Get.toNamed('${RoutesName.bookDetail}/${book.id}');
-            },
-          );
-        },
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3, // 3 items per row
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+        childAspectRatio: 0.5, // Adjust to fit book card size
       ),
+      itemCount: _controller.filteredBooks.length,
+      itemBuilder: (context, index) {
+        final book = _controller.filteredBooks.elementAt(index);
+        return BookCard(
+          book: book,
+          onTap: () {
+            Get.toNamed('${RoutesName.bookDetail}/${book.id}');
+          },
+        );
+      },
     );
   }
 }

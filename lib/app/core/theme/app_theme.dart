@@ -12,7 +12,6 @@ class AppTheme {
       seedColor: AppColors.primary,
       primary: AppColors.primary,
       brightness: brightness,
-
     );
 
     return ThemeData(

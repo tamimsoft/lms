@@ -1,5 +1,5 @@
 import 'package:lms/app/core/services/database/app_db.dart';
-import 'package:lms/app/common/data/entity/tag.dart';
+import 'package:lms/app/common/data/model/tag.dart';
 
 class TagRepository {
   final AppDb _db;
@@ -9,7 +9,8 @@ class TagRepository {
   Future<List<Tag>> getAll() async {
     final data = await _db.findAll<Tag>(
       table: DbTable.tags,
-      entity: Tag(), // Provide a dummy instance
+      fromJson: (json) => Tag.fromJson(json),
+      toJson: (item) => item.toJson(),
       orderBy: 'name',
     );
     return data;
@@ -21,7 +22,8 @@ class TagRepository {
       filters: [
         Filter(column: 'id', operator: Operator.inFilter, value: ids),
       ],
-      entity: Tag(), // Provide a dummy instance
+      fromJson: (json) => Tag.fromJson(json),
+      toJson: (item) => item.toJson(),
     );
   }
 }

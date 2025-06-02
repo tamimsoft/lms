@@ -1,34 +1,52 @@
 import 'dart:io';
-
 import 'package:hive/hive.dart';
-import 'package:lms/app/common/data/entity/base_entity.dart';
 import 'package:lms/app/core/services/database/app_db.dart';
 import 'package:path_provider/path_provider.dart';
 
 class HiveDbImpl implements AppDb {
   @override
-  Future<List<T>> findAll<T extends BaseEntity<T>>({
+  Future<List<T>> callRpc<T>({
+    required String functionName,
+    required T Function(Map<String, dynamic> p1) fromJson,
+    required Map<String, dynamic> Function(T p1) toJson,
+    Map<String, dynamic>? params,
+  }) async {
+    final box = await Hive.openBox<Map>(functionName);
+    final allData =
+        box.values
+            .map((e) => fromJson(Map<String, dynamic>.from(e)))
+            .cast<T>()
+            .toList();
+
+    return allData;
+  }
+
+  @override
+  Future<List<T>> findAll<T>({
     required DbTable table,
-    required T entity,
+    required T Function(Map<String, dynamic>) fromJson,
+    required Map<String, dynamic> Function(T) toJson,
     List<Filter>? filters,
     bool paginate = true,
     int limit = 10,
     int offset = 0,
     String? orderBy,
     bool isAscending = true,
+    String? select,
   }) async {
     final box = await Hive.openBox<Map>(table.name);
     final allData =
         box.values
-            .map((e) => entity.fromJson(json: Map<String, dynamic>.from(e)))
+            .map((e) => fromJson(Map<String, dynamic>.from(e)))
             .cast<T>()
             .toList();
 
-    var filtered = _applyFilters(allData, filters);
+    var filtered = _applyFilters(allData, filters, toJson);
+
     if (orderBy != null) {
       filtered.sort((a, b) {
-        final aVal = a.toJson()[orderBy];
-        final bVal = b.toJson()[orderBy];
+        final aVal = toJson(a)[orderBy] ?? '';
+        final bVal = toJson(b)[orderBy] ?? '';
         return isAscending
             ? Comparable.compare(aVal, bVal)
             : Comparable.compare(bVal, aVal);
@@ -43,10 +61,14 @@ class HiveDbImpl implements AppDb {
     return filtered;
   }
 
-  List<T> _applyFilters<T>(List<T> data, List<Filter>? filters) {
+  List<T> _applyFilters<T>(
+    List<T> data,
+    List<Filter>? filters,
+    Map<String, dynamic> Function(T) toJson,
+  ) {
     if (filters == null) return data;
     return data.where((item) {
-      final map = (item as BaseEntity).toJson();
+      final map = toJson(item);
       return filters.every((filter) {
         final value = map[filter.column];
         switch (filter.operator) {
@@ -72,15 +94,16 @@ class HiveDbImpl implements AppDb {
   }
 
   @override
-  Future<T?> findById<T extends BaseEntity<T>>({
+  Future<T?> findById<T>({
     required DbTable table,
     required String id,
-    required T entity,
+    required T Function(Map<String, dynamic>) fromJson,
+    required Map<String, dynamic> Function(T) toJson,
+    String? select,
   }) async {
     final box = await Hive.openBox<Map>(table.name);
     final data = box.get(id);
-    if (data == null) return null;
-    return entity.fromJson(json: Map<String, dynamic>.from(data));
+    return data != null ? fromJson(Map<String, dynamic>.from(data)) : null;
   }
 
   @override
@@ -89,7 +112,8 @@ class HiveDbImpl implements AppDb {
     required Map<String, dynamic> data,
   }) async {
     final box = await Hive.openBox<Map>(table.name);
-    final id = data['id'] ?? DateTime.now().millisecondsSinceEpoch.toString();
+    final id = data['id'];
+    if (id == null) throw Exception('Missing ID for Hive insert');
     await box.put(id, data);
   }
 

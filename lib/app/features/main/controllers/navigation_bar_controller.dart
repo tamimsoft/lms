@@ -1,58 +1,47 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms/app/features/book/binding/book_bindings.dart';
 import 'package:lms/app/features/book/controller/book_controller.dart';
-import 'package:lms/app/features/book/page/book_page.dart';
+import 'package:lms/app/features/borrowing/binding/borrowing_bindings.dart';
+import 'package:lms/app/features/borrowing/controller/borrowing_controller.dart';
 import 'package:lms/app/features/home/binding/home_bindings.dart';
-import 'package:lms/app/features/home/page/home_page.dart';
 import 'package:lms/app/features/profile/binding/profile_bindings.dart';
 import 'package:lms/app/features/profile/controllers/profile_controller.dart';
-import 'package:lms/app/features/profile/page/profile_page.dart';
+import 'package:lms/app/features/wishlist/binding/wishlist_bindings.dart';
+import 'package:lms/app/features/wishlist/controller/wishlist_controller.dart';
 
-enum Page { home, book, favorites, borrowing, profile }
+enum BottomNav { home, book, wishlist, borrowing, profile }
 
 class NavigationBarController extends GetxController {
   static NavigationBarController get instance => Get.find();
 
   final RxInt selectedIndex = 0.obs;
-
-  List<PageMeta> pageMetaList = [
-    PageMeta(title: 'BookWorm', subtitle: ''),
-    PageMeta(title: 'Browse Books', subtitle: 'Find your next favorite book'),
-    PageMeta(title: 'My Favorites', subtitle: '5 books in your collection'),
-    PageMeta(title: 'My Borrowings', subtitle: 'Manage your borrowed books'),
-    PageMeta(title: 'My Profile', subtitle: ''),
-  ];
-
-  final List<Widget> pages = [
-    HomePage(),
-    BookPage(),
-    Center(child: Text('brow')),
-    Center(child: Text('Borrowings')),
-    ProfilePage(),
-  ];
+  final RxBool isNavBarVisible = true.obs;
 
   @override
   void onInit() {
-    HomeBindings().dependencies();
     super.onInit();
+    HomeBindings().dependencies();
   }
 
   void onDestinationSelected(int index) {
     selectedIndex(index);
-    switch (Page.values[index]) {
-      case Page.book:
+    switch (BottomNav.values[index]) {
+      case BottomNav.book:
         if (!Get.isRegistered<BookController>()) {
           BookBindings().dependencies();
         }
         break;
-      case Page.favorites:
-        if (!Get.isRegistered()) {}
+      case BottomNav.wishlist:
+        if (!Get.isRegistered<WishlistController>()) {
+          WishlistBindings().dependencies();
+        }
         break;
-      case Page.borrowing:
-        if (!Get.isRegistered()) {}
+      case BottomNav.borrowing:
+        if (!Get.isRegistered<BorrowingController>()) {
+          BorrowingBindings().dependencies();
+        }
         break;
-      case Page.profile:
+      case BottomNav.profile:
         if (!Get.isRegistered<ProfileController>()) {
           ProfileBindings().dependencies();
         }
@@ -62,15 +51,4 @@ class NavigationBarController extends GetxController {
         break;
     }
   }
-
-  void navigateToAnotherScreen({required Page page}) {
-    selectedIndex(page.index);
-  }
-}
-
-class PageMeta {
-  final String title;
-  final String subtitle;
-
-  const PageMeta({required this.title, required this.subtitle});
 }

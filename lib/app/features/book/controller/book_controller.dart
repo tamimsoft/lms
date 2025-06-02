@@ -1,22 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:lms/app/common/data/model/book_model.dart';
-import 'package:lms/app/common/service/book_service.dart';
+import 'package:lms/app/common/data/model/book.dart';
+import 'package:lms/app/common/data/repository/book_repository.dart';
 
 class BookController extends GetxController {
   static BookController get instance => Get.find();
+  final BookRepository _bookRepo = Get.find();
 
-  final BookService _bookService = BookService();
   Set<String> fetchedTagIds = {};
 
   final RxBool isLoading = false.obs;
-  final RxList<BookModel> _allBooks = <BookModel>[].obs;
-  final RxList<BookModel> filteredBooks = <BookModel>[].obs;
-
-  // final RxMap<String, List<BookModel>> tagWiseBooks =
-  //     <String, List<BookModel>>{}.obs;
-  final Map<String, List<BookModel>> tagWiseBooks = {};
-
+  final RxList<Book> filteredBooks = <Book>[].obs;
+  final RxMap<String, List<Book>> tagWiseBooks = <String, List<Book>>{}.obs;
   final RxString searchKey = ''.obs;
 
   // Track selected Tag. Null means "All"
@@ -24,72 +18,34 @@ class BookController extends GetxController {
 
   // Track selected category. Null means "All"
   final RxnString selectedCategoryId = RxnString(null);
-  final Rx<BookModel?> book = Rx(null);
 
   String error = '';
 
-  Future<void> fetchBooks({
-    String? tagId,
-    String? categoryId,
-    String? bookId,
-  }) async {
+  Future<void> fetchBooks({String? tagId, String? categoryId}) async {
+    // if (tagWiseBooks.containsKey(tagId)) return; // Avoid duplicate fetch
+
     isLoading(true);
     try {
       if (tagId != null && tagId.isNotEmpty) {
         selectedTagId.value = tagId;
       }
+
       if (categoryId != null && categoryId.isNotEmpty) {
         selectedCategoryId.value = categoryId;
       }
-      final books = await _bookService.getBooks(
+      final books = await _bookRepo.getAllBookByTagIdOrCategoryId(
         tagId: selectedTagId.value,
         categoryId: selectedCategoryId.value,
-        bookId: bookId,
       );
-      if (tagId != null && tagId.isNotEmpty) {
-        if (!tagWiseBooks.containsKey(tagId)) {
-          tagWiseBooks[tagId] = books;
-        }
+      if ((tagId != null && tagId.isNotEmpty) &&
+          !tagWiseBooks.containsKey(tagId)) {
+        tagWiseBooks[tagId] = books;
       }
-      //Merge without duplication
-      // final merged =
-      //     {
-      //       for (var b in [..._allBooks, ...books]) b.id: b,
-      //     }.values.toList();
-      //
-      // _allBooks.assignAll(merged);
-      _allBooks.value = books;
-      applyFilter();
+      filteredBooks.value = books;
     } catch (e) {
       error = e.toString();
     } finally {
       isLoading(false);
-    }
-  }
-
-  void updateSearchKey(String value) {
-    searchKey.value = value;
-    applyFilter();
-  }
-
-  void applyFilter() {
-    final key = searchKey.value.trim().toLowerCase();
-
-    if (key.isEmpty) {
-      filteredBooks.value = _allBooks.toList();
-      return;
-    }
-
-    filteredBooks.value =
-        _allBooks.where((book) => book.matchesSearch(key)).toList();
-  }
-
-  Future<void> getBookById(String id) async {
-    final book = _allBooks.firstWhereOrNull((book) => book.id == id);
-    if (book == null) {
-      this.book.value = await _bookService.getById(id: id);
-    } else {
-      this.book.value = book;
     }
   }
 }

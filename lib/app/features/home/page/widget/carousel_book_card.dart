@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lms/app/common/data/entity/author.dart';
-import 'package:lms/app/common/data/entity/rating.dart';
-import 'package:lms/app/common/data/model/book_model.dart';
+import 'package:lms/app/common/data/model/author.dart';
+import 'package:lms/app/common/data/model/slide.dart';
 import 'package:lms/app/common/widget/custom_network_image.dart';
+import 'package:lms/app/config/routes/routes_name.dart';
 
 class CarouselBookCard extends StatelessWidget {
-  const CarouselBookCard({super.key, required this.book});
+  const CarouselBookCard({super.key, required this.slide});
 
-  final BookModel book;
+  final Slide slide;
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +50,14 @@ class CarouselBookCard extends StatelessWidget {
       height: 120,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: CustomNetworkImage(imageUrl: book.coverUrl),
+        child: CustomNetworkImage(imageUrl: slide.coverUrl),
       ),
     );
   }
 
   Widget _title() {
     return Text(
-      book.title,
+      slide.title,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -65,7 +65,7 @@ class CarouselBookCard extends StatelessWidget {
   }
 
   Widget _author() {
-    List<Author> authors = book.authors;
+    List<Author> authors = slide.authors;
     String authorNames = authors.map((author) => author.name).join(', ');
     return Expanded(
       child: Text(
@@ -78,18 +78,11 @@ class CarouselBookCard extends StatelessWidget {
   }
 
   Widget _rating() {
-    List<Rating> ratings = book.ratings;
-
-    double totalRating =
-        ratings.isEmpty
-            ? 0.0
-            : ratings.fold(0.0, (sum, r) => sum + r.rating) / ratings.length;
-
     return Row(
       children: [
         const Icon(Icons.star, size: 16, color: Colors.amber),
         const SizedBox(width: 4),
-        Text(totalRating.toStringAsFixed(1)),
+        Text(slide.avgRating.toStringAsFixed(1)),
       ],
     );
   }
@@ -97,7 +90,7 @@ class CarouselBookCard extends StatelessWidget {
   Widget _description() {
     return Expanded(
       child: Text(
-        book.description,
+        slide.shortDescription,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(fontSize: 12),
@@ -110,7 +103,7 @@ class CarouselBookCard extends StatelessWidget {
       width: 150,
       child: FilledButton.icon(
         onPressed: () {
-          // Navigate to book details
+          Get.toNamed('${RoutesName.bookDetail}/${slide.id}');
         },
         icon: const Icon(Icons.menu_book, size: 16),
         label: const Text("Read Now"),

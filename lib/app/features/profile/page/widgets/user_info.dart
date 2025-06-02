@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:lms/app/config/routes/routes_name.dart';
 
 class UserInfo extends StatelessWidget {
   const UserInfo({
@@ -28,7 +30,9 @@ class UserInfo extends StatelessWidget {
           spacing: 16,
           children: [
             OutlinedButton(onPressed: () {}, child: Text("Edit Profile")),
-            FilledButton(onPressed: () {}, child: Text("View Activity")),
+            FilledButton(onPressed: () {
+              Get.toNamed(RoutesName.userActivity);
+            }, child: Text("View Activity")),
           ],
         ),
       ],

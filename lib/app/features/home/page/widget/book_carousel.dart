@@ -14,7 +14,7 @@ class BookCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     final BookCarouselController controller = BookCarouselController.instance;
     return Obx(() {
-      if (controller.isLoading.value || controller.slideList.isEmpty) {
+      if (controller.isLoading.value || controller.slides.isEmpty) {
         return _buildPlaceholder();
       }
       return _buildContent(controller);
@@ -46,9 +46,9 @@ class BookCarousel extends StatelessWidget {
       spacing: 6,
       children: [
         CarouselSlider.builder(
-          itemCount: controller.slideList.length,
+          itemCount: controller.slides.length,
           itemBuilder: (context, index, _) {
-            return CarouselBookCard(book: controller.slideList[index]);
+            return CarouselBookCard(slide: controller.slides[index]);
           },
           options: CarouselOptions(
             height: 200,
@@ -69,7 +69,7 @@ class BookCarousel extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
-        controller.slideList.length,
+        controller.slides.length,
         (index) => Container(
           width: 13,
           height: 13,

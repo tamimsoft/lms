@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:lms/app/common/data/entity/tag.dart';
+import 'package:lms/app/common/data/model/tag.dart';
 
 class SectionHeader extends StatelessWidget {
   const SectionHeader({super.key, required this.tag});
@@ -15,7 +14,7 @@ class SectionHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            tag.name!,
+            tag.name,
             style: Theme.of(
               context,
             ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),

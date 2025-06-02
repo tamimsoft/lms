@@ -1,4 +1,4 @@
-import 'package:lms/app/common/data/entity/author.dart';
+import 'package:lms/app/common/data/model/author.dart';
 import 'package:lms/app/core/services/database/app_db.dart';
 
 class AuthorRepository {
@@ -9,7 +9,8 @@ class AuthorRepository {
   Future<List<Author>> getAll() async {
     final data = await _db.findAll<Author>(
       table: DbTable.authors,
-      entity: Author(), // Provide a dummy instance
+      fromJson: (json) => Author.fromJson(json),
+      toJson: (a) => a.toJson(),
     );
     return data;
   }
@@ -18,17 +19,28 @@ class AuthorRepository {
     return await _db.findById<Author>(
       table: DbTable.authors,
       id: id,
-      entity: Author(), // Provide a dummy instance
+      fromJson: (json) => Author.fromJson(json),
+      toJson: (a) => a.toJson(),
     );
   }
 
   Future<List<Author>> getAllByIds({required List<String> ids}) async {
     return await _db.findAll<Author>(
       table: DbTable.authors,
+      filters: [Filter(column: 'id', operator: Operator.inFilter, value: ids)],
+      fromJson: (json) => Author.fromJson(json),
+      toJson: (a) => a.toJson(),
+    );
+  }
+
+  Future<List<Author>> getAllByBookId({required String bookId}) async {
+    return await _db.findAll<Author>(
+      table: DbTable.authors,
       filters: [
-        Filter(column: 'id', operator: Operator.inFilter, value: ids),
+        Filter(column: 'book_id', operator: Operator.eq, value: bookId),
       ],
-      entity: Author(),
+      fromJson: (json) => Author.fromJson(json),
+      toJson: (a) => a.toJson(),
     );
   }
 }

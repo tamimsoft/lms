@@ -1,4 +1,5 @@
 import 'package:get/instance_manager.dart';
+import 'package:lms/app/features/profile/controllers/activity_controller.dart';
 import 'package:lms/app/features/profile/controllers/profile_controller.dart';
 
 class ProfileBindings extends Bindings {
@@ -6,5 +7,6 @@ class ProfileBindings extends Bindings {
   void dependencies() {
     /// Controllers
     Get.lazyPut(() => ProfileController());
+    Get.lazyPut(() => ActivityHistoryController());
   }
 }

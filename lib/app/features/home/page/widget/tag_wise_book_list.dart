@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lms/app/common/data/entity/tag.dart';
+import 'package:lms/app/common/data/model/tag.dart';
 import 'package:lms/app/common/widget/book_card.dart';
 import 'package:lms/app/common/widget/shimmer_placeholder.dart';
 import 'package:lms/app/config/routes/routes_name.dart';
@@ -66,16 +66,20 @@ class TageWiseBookList extends StatelessWidget {
 
   Widget _buildTagBooksRow(Tag tag) {
     // Move this outside build to avoid repeated calls. Ideally fetch once during init.
-    // if (_bookController.tagWiseBooks[tag.id] == null) {
-    //   _bookController.fetchBooks(tagId: tag.id);
-    // }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+
         SectionHeader(tag: tag),
         Obx(() {
-          final books = _bookController.tagWiseBooks[tag.id!];
+          if (_bookController.tagWiseBooks[tag.id] == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _bookController.fetchBooks(tagId: tag.id);
+            });
+          }
+
+          final books = _bookController.tagWiseBooks[tag.id];
 
           return SizedBox(
             height: 212,
@@ -95,9 +99,10 @@ class TageWiseBookList extends StatelessWidget {
                     width: 112,
                   );
                 }
-                final book = books!.elementAt(index);
+                final book = books.elementAt(index);
+
                 return BookCard(
-                  bookModel: book,
+                  book: book,
                   onTap: () {
                     Get.toNamed('${RoutesName.bookDetail}/${book.id}');
                   },
@@ -107,7 +112,7 @@ class TageWiseBookList extends StatelessWidget {
             ),
           );
         }),
-        //const SizedBox(height: 16),
+        const SizedBox(height: 16),
       ],
     );
   }

@@ -13,7 +13,7 @@ class AppString {
   // Navigation Bar Text
   static const String homeText = 'Home';
   static const String bookText = 'Books';
-  static const String favoriteText = 'Favorites';
+  static const String wishlistText = 'Wishlist';
   static const String libraryText = 'Borrowings';
   static const String profileText = 'Profile';
 

@@ -4,7 +4,7 @@ import 'package:lms/app/features/profile/model/reading_stats_item_model.dart';
 class ReadingStatsCard extends StatelessWidget {
   const ReadingStatsCard({super.key, required this.item});
 
-  final ReadingStatsItemModel item;
+  final ReadingStatsItem item;
 
   @override
   Widget build(BuildContext context) {

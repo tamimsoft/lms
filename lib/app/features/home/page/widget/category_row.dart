@@ -24,8 +24,8 @@ class CategoryRow extends StatelessWidget {
         // Sort categories by name (ascending)
         final sortedCategories = [...controller.categories];
         sortedCategories.sort(
-          (a, b) => (a.name ?? '').toLowerCase().compareTo(
-            (b.name ?? '').toLowerCase(),
+          (a, b) => (a.name).toLowerCase().compareTo(
+            (b.name).toLowerCase(),
           ),
         );
 
@@ -47,7 +47,7 @@ class CategoryRow extends StatelessWidget {
             ...sortedCategories.map(
               (category) => Obx(
                 () => ChoiceChip(
-                  label: Text(category.name ?? ''),
+                  label: Text(category.name),
                   selected: bookController.selectedCategoryId.value == category.id,
                   onSelected: (selected) {
                    // bookController.selectedCategoryId.value = category.id;

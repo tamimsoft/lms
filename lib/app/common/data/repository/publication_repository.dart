@@ -1,4 +1,4 @@
-import 'package:lms/app/common/data/entity/publication.dart';
+import 'package:lms/app/common/data/model/publication.dart';
 import 'package:lms/app/core/services/database/app_db.dart';
 
 class PublicationRepository {
@@ -9,7 +9,8 @@ class PublicationRepository {
   Future<List<Publication>> getAll() async {
     final data = await _db.findAll<Publication>(
       table: DbTable.publications,
-      entity: Publication(), // Provide a dummy instance
+      fromJson: (json) => Publication.fromJson(json),
+      toJson: (item) => item.toJson(),
     );
     return data;
   }
@@ -18,7 +19,8 @@ class PublicationRepository {
     return await _db.findById<Publication>(
       table: DbTable.publications,
       id: id,
-      entity: Publication(), // Provide a dummy instance
+      fromJson: (json) => Publication.fromJson(json),
+      toJson: (item) => item.toJson(),
     );
   }
 
@@ -28,7 +30,8 @@ class PublicationRepository {
       filters: [
         Filter(column: 'id', operator: Operator.inFilter, value: ids),
       ],
-      entity: Publication(), // Provide a dummy instance
+      fromJson: (json) => Publication.fromJson(json),
+      toJson: (item) => item.toJson(),
     );
   }
 }

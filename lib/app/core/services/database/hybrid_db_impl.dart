@@ -1,9 +1,7 @@
 import 'dart:io';
-
-import 'package:lms/app/common/data/entity/base_entity.dart';
+import 'package:get/get.dart';
+import 'package:lms/app/common/service/connectivity_service.dart';
 import 'package:lms/app/core/services/database/app_db.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
 import 'local/hive_db_impl.dart';
 import 'online/supabase_db_impl.dart';
 
@@ -11,87 +9,121 @@ class HybridDbImpl implements AppDb {
   final HiveDbImpl _hiveDb = HiveDbImpl();
   final SupabaseDbImpl _supabaseDb = SupabaseDbImpl();
 
-  bool get _isOnline => Supabase.instance.client.auth.currentSession != null;
+  bool get _isOnline => Get.find<ConnectivityService>().isOnline;
 
   @override
-  Future<List<T>> findAll<T extends BaseEntity<T>>({
+  Future<List<T>> callRpc<T>({
+    required String functionName,
+    required T Function(Map<String, dynamic>) fromJson,
+    required Map<String, dynamic> Function(T) toJson,
+    Map<String, dynamic>? params,
+  }) async {
+    final cachedData = _hiveDb.callRpc<T>(
+      functionName: functionName,
+      fromJson: fromJson,
+      toJson: toJson,
+      params: params,
+    );
+    if (_isOnline) {
+      try {
+        final onlineData = await _supabaseDb.callRpc<T>(
+          functionName: functionName,
+          fromJson: fromJson,
+          toJson: toJson,
+          params: params,
+        );
+        for (final item in onlineData) {
+          await _hiveDb.insert(table: DbTable.values.first, data: toJson(item));
+        }
+        return onlineData;
+      } catch (_) {
+        return cachedData;
+      }
+    }
+    return cachedData;
+  }
+
+  @override
+  Future<List<T>> findAll<T>({
     required DbTable table,
-    required T entity,
+    required T Function(Map<String, dynamic>) fromJson,
+    required Map<String, dynamic> Function(T) toJson,
     List<Filter>? filters,
     int limit = 10,
     int offset = 0,
     String? orderBy,
     bool paginate = true,
     bool isAscending = true,
+    String? select,
   }) async {
-    try {
-      // Return from cache
-      final cachedData = await _hiveDb.findAll<T>(
-        table: table,
-        entity: entity,
-        filters: filters,
-        limit: limit,
-        offset: offset,
-        orderBy: orderBy,
-        paginate: paginate,
-        isAscending: isAscending,
-      );
+    final cachedData = await _hiveDb.findAll<T>(
+      table: table,
+      fromJson: fromJson,
+      toJson: toJson,
+      filters: filters,
+      limit: limit,
+      offset: offset,
+      orderBy: orderBy,
+      paginate: paginate,
+      isAscending: isAscending,
+    );
 
-      // Fetch and sync if online
-      if (_isOnline) {
+    if (_isOnline) {
+      try {
         final onlineData = await _supabaseDb.findAll<T>(
           table: table,
-          entity: entity,
+          fromJson: fromJson,
+          toJson: toJson,
           filters: filters,
           limit: limit,
           offset: offset,
           orderBy: orderBy,
           paginate: paginate,
           isAscending: isAscending,
+          select: select,
         );
         for (final item in onlineData) {
-          await _hiveDb.insert(table: table, data: item.toJson());
+          await _hiveDb.insert(table: table, data: toJson(item));
         }
         return onlineData;
+      } catch (_) {
+        return cachedData;
       }
-
-      return cachedData;
-    } catch (e) {
-      return await _hiveDb.findAll<T>(
-        table: table,
-        entity: entity,
-        filters: filters,
-        limit: limit,
-        offset: offset,
-        orderBy: orderBy,
-        paginate: paginate,
-        isAscending: isAscending,
-      );
     }
+
+    return cachedData;
   }
 
   @override
-  Future<T?> findById<T extends BaseEntity<T>>({
+  Future<T?> findById<T>({
     required DbTable table,
     required String id,
-    required T entity,
+    required T Function(Map<String, dynamic>) fromJson,
+    required Map<String, dynamic> Function(T) toJson,
+    String? select,
   }) async {
     final cached = await _hiveDb.findById<T>(
       table: table,
       id: id,
-      entity: entity,
+      fromJson: fromJson,
+      toJson: toJson,
+      select: select,
     );
 
     if (_isOnline) {
-      final online = await _supabaseDb.findById<T>(
-        table: table,
-        id: id,
-        entity: entity,
-      );
-      if (online != null) {
-        await _hiveDb.insert(table: table, data: online.toJson());
-        return online;
-      }
+      try {
+        final online = await _supabaseDb.findById<T>(
+          table: table,
+          id: id,
+          fromJson: fromJson,
+          toJson: toJson,
+          select: select,
+        );
+        if (online != null) {
+          await _hiveDb.insert(table: table, data: toJson(online));
+          return online;
+        }
+      } catch (_) {}
     }
 
     return cached;

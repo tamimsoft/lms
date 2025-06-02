@@ -9,12 +9,14 @@ import 'package:lms/app/common/data/repository/slide_repository.dart';
 import 'package:lms/app/common/data/repository/tag_repository.dart';
 import 'package:lms/app/common/data/repository/user_repository.dart';
 import 'package:lms/app/features/main/controllers/navigation_bar_controller.dart';
+import 'package:lms/app/features/notifications/controller/notification_controller.dart';
 
 class MainBindings extends Bindings {
   @override
   void dependencies() {
     /// Controllers
     Get.lazyPut(() => NavigationBarController());
+    Get.lazyPut(() => NotificationController());
 
     /// repositories
     Get.lazyPut<SlideRepository>(() => SlideRepository(Get.find()));

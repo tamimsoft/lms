@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class ReadingStatsItemModel {
+class ReadingStatsItem {
   final IconData icon;
   final String label;
   final String value;
   final Color color;
 
-  ReadingStatsItemModel({
+  ReadingStatsItem({
     required this.icon,
     required this.label,
     required this.value,

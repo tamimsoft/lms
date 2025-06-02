@@ -1,4 +1,4 @@
-import 'package:lms/app/common/data/entity/slide.dart';
+import 'package:lms/app/common/data/model/slide.dart';
 import 'package:lms/app/core/services/database/app_db.dart';
 
 class SlideRepository {
@@ -6,11 +6,11 @@ class SlideRepository {
 
   SlideRepository(this._db);
 
-  Future<List<Slide>> getAll() async {
-    final data = await _db.findAll<Slide>(
-      table: DbTable.slides,
-      entity: Slide(), // Provide a dummy instance
+  Future<List<Slide>> getSlides() async {
+    return await _db.callRpc(
+      functionName: 'get_slides',
+      fromJson: (json) => Slide.fromJson(json),
+      toJson: (s) => s.toJson(),
     );
-    return data;
   }
 }

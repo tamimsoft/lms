@@ -1,15 +1,16 @@
 import 'package:get/get.dart';
-import 'package:lms/app/common/data/model/book_model.dart';
-import 'package:lms/app/common/service/book_service.dart';
+import 'package:lms/app/common/data/model/slide.dart';
+import 'package:lms/app/common/data/repository/slide_repository.dart';
 
 class BookCarouselController extends GetxController {
   static BookCarouselController get instance => Get.find();
 
-  final BookService _bookService = BookService();
+  final 
+  SlideRepository _slideRepo = Get.find();
 
   final RxBool isLoading = false.obs;
   final RxInt sliderIndex = 0.obs;
-  final RxList<BookModel> slideList = <BookModel>[].obs;
+  final RxList<Slide> slides = <Slide>[].obs;
   String error = '';
 
   @override
@@ -21,7 +22,7 @@ class BookCarouselController extends GetxController {
   Future<void> fetchSlides() async {
     isLoading(true);
     try {
-      slideList.value = await _bookService.getAllCarouselBooks();
+      slides.value = await _slideRepo.getSlides();
     } catch (e) {
       error = e.toString();
     } finally {

@@ -1,63 +1,97 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lms/app/config/routes/routes_name.dart';
+import 'package:lms/app/features/profile/model/menu_item.dart';
+import 'package:lms/app/features/profile/model/quick_action_item_model.dart';
 import 'package:lms/app/features/profile/model/reading_stats_item_model.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class ProfileController extends GetxController {
-  static ProfileController get instance => Get.find<ProfileController>();
+  static ProfileController get instance => Get.find();
 
-  final readingStats =
-      [
-        ReadingStatsItemModel(
-          icon: LucideIcons.bookOpen,
-          label: 'Reading',
-          value: '3',
-          color: Color(0xFF3B82F6),
-        ),
-        ReadingStatsItemModel(
-          icon: LucideIcons.heart,
-          label: 'Favorites',
-          value: '7',
-          color: Color(0xFFEF4444),
-        ),
-        ReadingStatsItemModel(
-          icon: LucideIcons.clock,
-          label: 'Returned',
-          value: '12',
-          color: Color(0xFFF59E0B),
-        ),
-        ReadingStatsItemModel(
-          icon: LucideIcons.calendarClock,
-          label: 'Due Returns',
-          value: '5',
-          color: Color(0xFF10B981),
-        ),
-      ];
+  final readingStats = [
+    ReadingStatsItem(
+      icon: Icons.auto_stories_outlined,
+      label: 'Reading',
+      value: '3',
+      color: Color(0xFF3B82F6),
+    ),
+    ReadingStatsItem(
+      icon: Icons.favorite_outline,
+      label: 'Favorites',
+      value: '7',
+      color: Color(0xFFEF4444),
+    ),
+    ReadingStatsItem(
+      icon: Icons.lock_clock_outlined,
+      label: 'Returned',
+      value: '12',
+      color: Color(0xFFF59E0B),
+    ),
+    ReadingStatsItem(
+      icon: Icons.calendar_month,
+      label: 'Due Returns',
+      value: '5',
+      color: Color(0xFF10B981),
+    ),
+  ];
+
+  final quickActions = [
+    QuickActionItem(
+      title: 'Reading History',
+      description: 'View your reading progress & stats',
+      icon: Icons.history,
+      color: Color(0xFF8B5CF6),
+      bg: Color(0xFFF5F3FF),
+      route: '/reading-history',
+    ),
+    QuickActionItem(
+      title: 'Reviews & Ratings',
+      description: 'Manage your book reviews',
+      icon: Icons.star,
+      color: Color(0xFFFBBF24),
+      bg: Color(0xFFFEFCE8),
+      route: RoutesName.reviewAndRating,
+    ),
+    QuickActionItem(
+      title: 'My Wishlist',
+      description: 'Books you want to read',
+      icon: Icons.bookmark_outline,
+      color: Color(0xFF6366F1),
+      bg: Color(0xFFEEF2FF),
+      route: RoutesName.wishlist,
+    ),
+    QuickActionItem(
+      title: 'Library Events',
+      description: 'Upcoming events & activities',
+      icon: Icons.event,
+      color: Color(0xFF34D399),
+      bg: Color(0xFFF0FDF4),
+      route: '/events',
+    ),
+  ];
 
   final menuItems = [
-    {
-      'icon': LucideIcons.settings,
-      'label': 'Account Settings',
-      'route': '/settings',
-    },
-    {
-      'icon': LucideIcons.bell,
-      'label': 'Notifications',
-      'route': '/notifications',
-    },
-    {
-      'icon': LucideIcons.helpCircle,
-      'label': 'Help & Support',
-      'route': '/help',
-    },
-    {
-      'icon': LucideIcons.logOut,
-      'label': 'Log Out',
-      'route': RoutesName.loginOrSignUp,
-      'danger': true,
-    },
+    MenuItem(
+      icon: Icons.settings,
+      label: 'Account Settings,',
+      route: RoutesName.settings,
+    ),
+    MenuItem(
+      icon: Icons.notifications_outlined,
+      label: 'Notifications',
+      route: RoutesName.notifications,
+    ),
+    MenuItem(
+      icon: Icons.help_outline,
+      label: 'Help & Support',
+      route: RoutesName.helpSupport,
+    ),
+    MenuItem(
+      icon: Icons.logout,
+      label: 'Log Out',
+      route: RoutesName.loginOrSignUp,
+      danger: true,
+    ),
   ];
 }
 

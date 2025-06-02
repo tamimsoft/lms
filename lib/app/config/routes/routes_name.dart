@@ -7,7 +7,17 @@ class RoutesName {
   static const String home = '/home';
   static const String book = '/book';
   static const String bookDetail = '/book-details';
+  static const String bookPreview = '/book-preview';
+  static const String bookAddEdit = '/book-add-edit';
+  static const String wishlist = '/favorite';
+  static const String borrowings = '/borrowings';
+
+  //  Profile
   static const String profile = '/profile';
+  static const String userActivity = '/user-activity';
+  static const String accountSettings = '/account-settings';
+  static const String reviewAndRating = '/review-and-rating';
+  static const String helpSupport = '/help-support';
   static const String editProfile = '/editProfile';
 
   static const String settings = '/settings';

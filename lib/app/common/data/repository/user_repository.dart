@@ -1,4 +1,4 @@
-import 'package:lms/app/common/data/entity/user.dart';
+import 'package:lms/app/common/data/model/user.dart';
 import 'package:lms/app/core/services/database/app_db.dart';
 
 class UserRepository {
@@ -9,7 +9,8 @@ class UserRepository {
   Future<List<User>> getAll() async {
     final data = await _db.findAll<User>(
       table: DbTable.users,
-      entity: User(), // Provide a dummy instance
+      fromJson: (json) => User.fromJson(json),
+      toJson: (item) => item.toJson(),
     );
     return data;
   }
@@ -18,8 +19,8 @@ class UserRepository {
     final data = await _db.findById<User>(
       table: DbTable.users,
       id: id,
-      entity: User(),
-      // Provide a dummy instance
+      fromJson: (json) => User.fromJson(json),
+      toJson: (item) => item.toJson(),
     );
     return data;
   }
@@ -27,10 +28,9 @@ class UserRepository {
   Future<List<User>> getAllByIds({required List<String> ids}) async {
     return await _db.findAll<User>(
       table: DbTable.users,
-      filters: [
-        Filter(column: 'id', operator: Operator.inFilter, value: ids),
-      ],
-      entity: User(), // Provide a dummy instance
+      filters: [Filter(column: 'id', operator: Operator.inFilter, value: ids)],
+      fromJson: (json) => User.fromJson(json),
+      toJson: (item) => item.toJson(),
     );
   }
 
@@ -44,7 +44,8 @@ class UserRepository {
           value: [bookId],
         ),
       ],
-      entity: User(), // Provide a dummy instance
+      fromJson: (json) => User.fromJson(json),
+      toJson: (item) => item.toJson(),
     );
     return data.isNotEmpty;
   }
